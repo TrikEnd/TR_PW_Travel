@@ -1,0 +1,72 @@
+/* AGAR CONTENT TIDAK KETIMPA NAVBAR */
+body {
+    background: #007b7b;
+    padding-top: 90px; /* SESUAI TINGGI NAVBAR */
+}
+
+/* POPUP FULLSCREEN */
+.popup {
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    position: fixed;   /* WAJIB FIX */
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+.link a{
+    color:#0000EE;
+    margin-left: 10px;
+    
+}
+/* POPUP BOX */
+.popup-content {
+    width: 500px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.popup-content input {
+    width: 70%;
+    padding: 8px;
+    margin: 15px 0;
+    border: 1px solid gray;
+    border-radius:8px ;
+}
+
+.popup-content button {
+    width: 70%;
+    padding: 8px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border: 1px solid rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    background-color: green;
+}
+.remember {
+    width: 300px;
+    margin: 5px 0 10px 65px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.remember input {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+}
+.conpop{
+    background-color: red;
+}
+.remember p{
+    margin-left: 30px;
+}
+
