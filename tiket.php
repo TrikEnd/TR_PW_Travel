@@ -20,41 +20,33 @@
 <div class="filter-container">
 
     <div class="left-filter">
-        <span class="filter-title">Filter:</span>
+        <span class="filter-title">Pilih Jenis Tiket:</span>
 
-        <div class="filter-item">
-            <button class="filter-btn">Waktu ▼</button>
-            <div class="dropdown">
-                <p>Pagi (04.00 - 11.00)</p>
-                <p>Siang (11.00 - 15.00)</p>
-                <p>Sore (15.00 - 18.00)</p>
-                <p>Malam (18.00 - 24.00)</p>
-            </div>
+        <div class="filter-item-tiket">
+            <button class="filter-tiket-btn active-filter">Bus</button>
         </div>
 
-        <div class="filter-item">
-            <button class="filter-btn">Kelas ▼</button>
-            <div class="dropdown">
-                <p>Ekonomi</p>
-                <p>Bisnis</p>
-                <p>Eksekutif</p>
-            </div>
+        <div class="filter-item-tiket">
+            <button class="filter-tiket-btn">Pesawat</button>    
         </div>
 
-        <div class="filter-item">
-            <button class="filter-btn">Kereta ▼</button>
-            <div class="dropdown">
-                <p>Argo Parahyangan</p>
-                <p>Serayu</p>
-                <p>Kutojaya</p>
-                <p>Argo Lawu</p>
-            </div>
+        <div class="filter-item-tiket">
+            <button class="filter-tiket-btn">Kapal</button>
         </div>
-    </div>
+</div>
+
 
     <div class="right-filter">
-        <button class="sort-btn">URUTKAN ✓</button>
+    <div class="drop-down-filter">
+        <div class="drop-down-btn" id="sortBtn">URUTKAN ✓</div>
+        <div class="filter-content" id="sortMenu">
+            <a href="">Januari</a>
+            <a href="">Februari</a>
+            <a href="">Maret</a>
+        </div>
     </div>
+</div>
+
 
 </div>
 
@@ -65,6 +57,10 @@
     <div class="ticket-card">
 
         <div class="card-left">
+            <div class="pesawat">
+                <img src="asset/air-asia.png" alt="">
+                <p>AirAsia</p>
+            </div>
             <h3>Parahyangan (131)</h3>
             <p class="kelas">Ekonomi (CA)</p>
 
@@ -89,7 +85,7 @@
         </div>
 
         <div class="card-right">
-            <div class="price">Rp 100.000 <span>/pax</span></div>
+            <div class="price">Rp 100.000 <span>/orng</span></div>
             <button>Pilih</button>
         </div>
 
@@ -142,3 +138,36 @@
 
 </body>
 </html>
+
+<script>
+document.getElementById("sortBtn").onclick = 
+    function () {
+    const menu = document.getElementById("sortMenu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+};
+
+// Tutup menu jika klik di luar
+document.addEventListener("click", 
+    function(e){
+    if (!e.target.closest(".drop-down-filter")) {
+        document.getElementById("sortMenu").style.display = "none";
+    }
+});
+
+
+// active button filter tiket
+
+const buttons = document.querySelectorAll('.filter-tiket-btn');
+
+buttons.forEach(btn => {
+    btn.addEventListener('click', function() {
+
+        // Hapus active dari semua
+        buttons.forEach(b => b.classList.remove('active-filter'));
+
+        // Tambahkan active ke yang diklik
+        this.classList.add('active-filter');
+    });
+});
+
+</script>
