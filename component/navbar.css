@@ -1,0 +1,94 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+/* NAVBAR */
+.navbar {
+    width: 100%;
+    background: linear-gradient(90deg, #005b69, #1ca3b8);
+    padding: 15px 0;
+    position: fixed;      /* Agar tetap di atas dan stabil */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.navbar-space {
+    height: 90px; /* Sesuaikan tinggi navbar */
+}
+
+/* Container flex kiri - tengah - kanan */
+.nav-container {
+    width: 100%;
+    max-width: 1300px;      /* INI YANG BIKIN TETAP STABIL */
+    margin: 0 auto;         /* Tengah */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;  /* KIRI - TENGAH - KANAN */
+    padding: 0 40px;        /* Stabil saat zoom */
+}
+
+/* LOGO */
+.logo {
+    width: 80px;
+}
+
+/* MENU TENGAH */
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 50px;
+    flex: 1;
+    justify-content: center;
+}
+
+.nav-menu li a {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    color: white;
+    transition: 0.3s;
+}
+
+.nav-menu li a:hover {
+    opacity: 0.7;
+}
+
+/* TOMBOL KANAN */
+.nav-right {
+   display:flex;
+   gap: 10px;
+}
+
+.btn {
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.login {
+    background: white;
+    color: #005b69;
+}
+
+.login:hover {
+    background: #f0f0f0;
+}
+
+.register {
+    background: #003e47;
+    color: white;
+}
+
+.register:hover {
+    background: #002a2f;
+}
+
+/* SUPAYA BODY TIDAK KETUTUP NAVBAR */
+body {
+    padding-top: 80px;
+}
