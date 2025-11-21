@@ -20,9 +20,8 @@ $total = $baseFare + $taxes + $serviceFee;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment</title>
 
-    <!-- CSS form & layout (sama seperti booking) -->
-    <link rel="stylesheet" href="style/d.form.css">
-    <!-- CSS navbar -->
+    <link rel="stylesheet" href="style/payment.css">
+
     <link rel="stylesheet" href="component/navbar.css">
 </head>
 
@@ -31,7 +30,6 @@ $total = $baseFare + $taxes + $serviceFee;
 
 <div class="navbar-space"></div>
 
-<!-- STEPS: Payment aktif -->
 <div class="steps-wrapper">
     <ul class="steps">
         <li class="step-item">
@@ -60,7 +58,6 @@ $total = $baseFare + $taxes + $serviceFee;
 </div>
 
 <main class="main">
-    <!-- KIRI: METODE PEMBAYARAN -->
     <section>
         <article class="card">
             <div class="card-header">
@@ -70,7 +67,6 @@ $total = $baseFare + $taxes + $serviceFee;
                 </div>
             </div>
 
-            <!-- Form hanya tampilan, belum kirim ke mana-mana -->
             <form class="passenger-form" method="post" action="#">
                 <!-- Virtual Account -->
                 <div class="card-subtitle" style="margin-bottom:6px;">Virtual Account / Bank Transfer</div>
@@ -95,7 +91,6 @@ $total = $baseFare + $taxes + $serviceFee;
 
                 <hr class="card-divider">
 
-                <!-- E-Wallet -->
                 <div class="card-subtitle" style="margin-bottom:6px;">E-Wallet</div>
                 <div class="form-row">
                     <div class="form-group" style="flex:1 1 100%;">
@@ -118,7 +113,6 @@ $total = $baseFare + $taxes + $serviceFee;
 
                 <hr class="card-divider">
 
-                <!-- Kartu -->
                 <div class="card-subtitle" style="margin-bottom:6px;">Credit / Debit Card</div>
                 <div class="form-row">
                     <div class="form-group">
@@ -139,7 +133,6 @@ $total = $baseFare + $taxes + $serviceFee;
         </article>
     </section>
 
-    <!-- KANAN: RINGKASAN + TOMBOL KE E-TICKET -->
     <aside class="card">
         <div class="summary-title">Price Summary</div>
 
@@ -182,4 +175,5 @@ $total = $baseFare + $taxes + $serviceFee;
 
 </body>
 </html>
+
 
