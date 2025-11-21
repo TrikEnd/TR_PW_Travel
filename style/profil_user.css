@@ -27,6 +27,7 @@ h1 {
     color: #1f2f56;
     margin-bottom: 10px;
     font-weight: 700;
+    text-align: center;
 }
 
 h2 {
@@ -34,11 +35,13 @@ h2 {
     margin-bottom: 20px;
     font-size: 20px;
     font-weight: 600;
+    text-align: center;
 }
 
 .subtitle {
     color: #7a8599;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .form-group {
@@ -115,4 +118,10 @@ button:hover {
     border-radius: 20px;
     font-size: 12px;
     margin-top: 5px;
+}
+
+.history-item h3 img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
 }
