@@ -1,5 +1,4 @@
 <?php
-// Data dummy, nanti bisa diambil dari DB / session
 $bookingCode = "TRV12345";
 $passengerName = "Mr memek wangi 123 Passenger";
 $routeFrom   = "CGK";
@@ -25,7 +24,6 @@ $seat        = "12A";
 
 <div class="navbar-space"></div>
 
-<!-- STEPS (Step 4 aktif) -->
 <div class="steps-wrapper">
     <ul class="steps">
         <li class="step-item">
@@ -144,3 +142,4 @@ $seat        = "12A";
 <script src="script.js"></script>
 </body>
 </html>
+
