@@ -18,9 +18,7 @@ $passengers = 1;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flight Booking</title>
 
-    <!-- CSS form & layout -->
     <link rel="stylesheet" href="style/d.form.css">
-    <!-- CSS navbar -->
     <link rel="stylesheet" href="component/navbar.css">
 </head>
 
@@ -29,7 +27,6 @@ $passengers = 1;
 
 <div class="navbar-space"></div>
 
-<!-- STEPS -->
 <div class="steps-wrapper">
     <ul class="steps">
         <li class="step-item">
@@ -58,7 +55,6 @@ $passengers = 1;
 </div>
 
 <main class="main">
-    <!-- KIRI: DETAIL PENERBANGAN & FORM -->
     <section>
         <!-- CARD FLIGHT -->
         <article class="card">
@@ -111,7 +107,6 @@ $passengers = 1;
             </div>
         </article>
 
-        <!-- CARD FORM PENUMPANG -->
         <article class="card" style="margin-top: 14px;">
             <div class="card-header">
                 <div>
@@ -120,7 +115,6 @@ $passengers = 1;
                 </div>
             </div>
 
-            <!-- Form hanya untuk tampilan (belum diproses ke mana-mana) -->
             <form id="bookingForm" class="passenger-form" method="post" action="#">
                 <div class="form-row">
                     <div class="form-group">
@@ -199,7 +193,6 @@ $passengers = 1;
         </article>
     </section>
 
-    <!-- KANAN: RINGKASAN HARGA + TOMBOL NEXT -->
     <aside class="card">
         <div class="summary-title">Price Summary</div>
 
@@ -239,7 +232,6 @@ $passengers = 1;
             <strong>Free reschedule fee</strong> may apply on specific dates. Airlines may charge additional fare difference.
         </div>
 
-        <!-- TOMBOL SUDAH JADI LINK KE PAYMENT.PHP -->
         <a href="payment.php" class="submit-btn" 
            style="display:block; text-align:center; margin-top:14px;">
             Continue to Payment
@@ -253,3 +245,4 @@ $passengers = 1;
 
 </body>
 </html>
+
