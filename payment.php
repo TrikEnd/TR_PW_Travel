@@ -169,7 +169,6 @@ $total = $baseFare + $taxes + $serviceFee;
             <strong>Secure Payment</strong> – your transaction is protected with encryption.
         </div>
 
-        <!-- TOMBOL LINK KE e-ticket.php -->
         <a href="eticket.php" class="submit-btn" 
            style="display:block; text-align:center; margin-top:14px;">
             Pay Now & Get E-ticket
@@ -183,3 +182,4 @@ $total = $baseFare + $taxes + $serviceFee;
 
 </body>
 </html>
+
