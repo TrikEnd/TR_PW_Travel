@@ -15,7 +15,7 @@ $seat        = "12A";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-ticket - Flight Booking</title>
-    <link rel="stylesheet" href="style/d.form.css">
+    <link rel="stylesheet" href="style/e.ticket.css">
     <link rel="stylesheet" href="component/navbar.css">
 </head>
 <body>
@@ -142,4 +142,5 @@ $seat        = "12A";
 <script src="script.js"></script>
 </body>
 </html>
+
 
