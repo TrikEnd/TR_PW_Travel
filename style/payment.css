@@ -1,0 +1,16 @@
+@import url("booking.css"); 
+
+.extra-options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    padding: 6px 0;
+}
+
+.form-input {
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.card-subtitle { margin: 8px 0; font-size: 0.85rem; color: #555; }
