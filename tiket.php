@@ -39,7 +39,7 @@ $result = $conn->query($query);
             <span class="filter-title">Pilih Jenis Tiket:</span>
             <div class="filter-item-tiket"><a href="?jenis=Bus"><button class="filter-tiket-btn <?= $jenis=='Bus'?'active-filter':'' ?>">Bus</button></a></div>
             <div class="filter-item-tiket"><a href="?jenis=Pesawat"><button class="filter-tiket-btn <?= $jenis=='Pesawat'?'active-filter':'' ?>">Pesawat</button></a></div>
-            <div class="filter-item-tiket"><a href="?jenis=Kapal"><button class="filter-tiket-btn <?= $jenis=='Kapal'?'active-filter':'' ?>">Kapal</button></a></div>
+            <div class="filter-item-tiket"><a href="?jenis=Kereta"><button class="filter-tiket-btn <?= $jenis=='Kereta'?'active-filter':'' ?>">Kereta</button></a></div>
         </div>
 
         <div class="right-filter">
