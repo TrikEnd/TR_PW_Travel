@@ -1,8 +1,12 @@
-    <?php
+<?php
     include 'koneksi.php'; // pastikan koneksi ke database sudah benar
 
     if (session_status() == PHP_SESSION_NONE) {
     session_start();
+
+    if(isset($_POST['return_url'])){
+    $_SESSION['return_to'] = $_POST['return_url'];
+}
 }
     // LOGIN
 
@@ -91,15 +95,14 @@
                 <form method="POST">
                     <h1>Login</h1>
         <input type="email" name="email" placeholder="example@gmail.com">
-        <input type="password" name="password" placeholder="*****">
+        <input type="password" name="password" placeholder="*">
+        
+        <label class="remember">
+            <input type="checkbox"> Remember me
+            <p> Dont have account?<b><a class="link" href="">Register</a></b></p>
+        </label>
         <button type="submit" name="login">Login</button>
     </form>
-
-    <label class="remember">
-        <input type="checkbox"> Remember me
-
-        <p> Dont have account?<b><a class="link" href="">Register</a></b></p>
-    </label>
             </div>
             </div>
         </div>
@@ -109,7 +112,6 @@
         <div class="popup2">
         <div class="popup-content2">
 
-            <h1>Register</h1>
 
             <form method="POST">
         <h1>Register</h1>
@@ -117,87 +119,85 @@
         <input type="email" name="email" placeholder="example@gmail.com" required>
         <input type="password" name="password" placeholder="Password" required>
         <input type="password" name="password_confirm" placeholder="Password confirmation" required>
+        
+        <label class="remember2">
+            <input type="checkbox"> Remember me
+            <p>Have account? <b><a href="" class="link2">Login</a></b></p>
+        </label>
         <button type="submit" name="register">Register</button>
+        
     </form>
-
-            <label class="remember2">
-                <input type="checkbox"> Remember me
-                <p>Have account? <b><a href="" class="link2">Login</a></b></p>
-            </label>
-
-            <button>Register</button>
+    
 
         </div>
     </div>
 
         <script>
-        const popup = document.querySelector('.popup');
+    const popup = document.querySelector('.popup');
     const popup2 = document.querySelector('.popup2');
-    const openBtn = document.getElementById('openPopup');
+    const openBtn = document.getElementById('openPopup');   // Tombol buka Login
+    const openBtn2 = document.getElementById('openRegis');  // Tombol buka Register
 
-    // Close button Login
+    // ✅ SIMPAN URL HALAMAN SEKARANG
+    function saveReturnURL() {
+        fetch('save_return_url.php', {
+            method: 'POST',
+            body: new URLSearchParams({
+                return_url: window.location.href
+            })
+        });
+    }
+
+    // ✅ BUTTON CLOSE LOGIN
     const closePopup = document.createElement('div');
     closePopup.innerHTML = "&times;";
     closePopup.classList.add('close-popup');
     document.querySelector('.popup-content').appendChild(closePopup);
 
-    // Open Login
+    // ✅ BUKA LOGIN
     openBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        saveReturnURL();
         popup.classList.add('show');
-        popup2.classList.remove('show2'); // ← Tutup Register
+        popup2.classList.remove('show2');
     });
 
-    openBtn.addEventListener('click', () => {
-    fetch('save_return_url.php', {
-        method: 'POST',
-        body: new URLSearchParams({
-            return_url: window.location.href
-        })
-    });
-});
-    
-    // Close Login
+    // ✅ TUTUP LOGIN
     closePopup.addEventListener('click', () => {
         popup.classList.remove('show');
     });
 
-    // Click outside
+    // ✅ KLIK DI LUAR LOGIN
     popup.addEventListener('click', (e) => {
         if (e.target === popup) popup.classList.remove('show');
     });
-    
-    </script>
 
-    <script>
-        const openBtn2 = document.getElementById('openRegis');
-
-    // Close button Register
+    // ✅ BUTTON CLOSE REGISTER
     const closePopup2 = document.createElement('div');
     closePopup2.innerHTML = "&times;";
     closePopup2.classList.add('close-popup2');
     document.querySelector('.popup-content2').appendChild(closePopup2);
 
-    // Open Register
+    // ✅ BUKA REGISTER
     openBtn2.addEventListener('click', (e) => {
         e.preventDefault();
+        saveReturnURL();
         popup2.classList.add('show2');
-        popup.classList.remove('show'); // ← Tutup Login
+        popup.classList.remove('show');
     });
 
-    // Close Register
+    // ✅ TUTUP REGISTER
     closePopup2.addEventListener('click', () => {
         popup2.classList.remove('show2');
     });
 
-    // Click outside
+    // ✅ KLIK DI LUAR REGISTER
     popup2.addEventListener('click', (e) => {
         if (e.target === popup2) popup2.classList.remove('show2');
     });
-    ;
-        </script>
+</script>
+
     </body>
 
 
     </html>
-
