@@ -13,7 +13,8 @@
 
         <div class="nav-left">
             <a href="index.php">
-                <img src="asset/logo.png" class="logo" alt="Logo">
+                <!-- <img src="asset/logo.png" class="logo" alt="Logo"> -->
+                <img src="asset/logo-hitam.png" class="logo" alt="Logo">
             </a>
         </div>
 

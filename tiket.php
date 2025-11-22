@@ -97,6 +97,12 @@ $result = $conn->query($query);
 
 </div>
 
+
+<br>
+<br>
+<br>
+<br>
+<br>
 <script>
 // Dropdown
 const sortBtn = document.getElementById("sortBtn");
