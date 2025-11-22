@@ -1,3 +1,93 @@
+<?php
+session_start();
+include 'koneksi.php';
+
+// Cek apakah user sudah login
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+$message = '';
+$error = '';
+
+// Ambil data user dari database
+$sql = "SELECT * FROM tb_user WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+// Jika user tidak ditemukan, redirect ke login
+if (!$user) {
+    session_destroy();
+    header('Location: login.php');
+    exit();
+}
+
+// Proses update profile
+if (isset($_POST['update_profile'])) {
+    $nama = $_POST['nama'];
+    $email = $_POST['email'];
+    $no_telepon = $_POST['no_telepon'];
+    
+    $sql = "UPDATE tb_user SET username = ?, email = ?, no_telepon = ? WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssi", $nama, $email, $no_telepon, $user_id);
+    
+    if ($stmt->execute()) {
+        $message = "Profil berhasil diperbarui!";
+        // Refresh data user
+        $stmt = $conn->prepare("SELECT * FROM tb_user WHERE id = ?");
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+    } else {
+        $error = "Gagal memperbarui profil!";
+    }
+}
+
+// Proses update password
+if (isset($_POST['update_password'])) {
+    $password_lama = $_POST['password_lama'];
+    $password_baru = $_POST['password_baru'];
+    $konfirmasi_password = $_POST['konfirmasi_password'];
+    
+    // Verifikasi password lama
+    if (password_verify($password_lama, $user['password'])) {
+        if ($password_baru === $konfirmasi_password) {
+            $hashed_password = password_hash($password_baru, PASSWORD_DEFAULT);
+            $sql = "UPDATE tb_user SET password = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $hashed_password, $user_id);
+            
+            if ($stmt->execute()) {
+                $message = "Password berhasil diperbarui!";
+            } else {
+                $error = "Gagal memperbarui password!";
+            }
+        } else {
+            $error = "Konfirmasi password tidak cocok!";
+        }
+    } else {
+        $error = "Password lama salah!";
+    }
+}
+
+// Ambil riwayat booking
+$sql = "SELECT b.*, t.jenis, t.nama_maskapai, t.dari, t.ke, t.tanggal 
+        FROM tb_booking b 
+        JOIN tb_tiket t ON b.tiket_id = t.id 
+        WHERE b.user_id = ? 
+        ORDER BY b.tanggal_booking DESC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$bookings = $stmt->get_result();
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -14,6 +104,16 @@
         <div class="card">
             <h1>Profil Saya</h1>
             <p class="subtitle">Kelola informasi profil Anda</p>
+            <?php if ($message): ?>
+                <div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                    <?php echo $message; ?>
+                </div>
+            <?php endif; ?>
+            <?php if ($error): ?>
+                <div style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                    <?php echo $error; ?>
+                </div>
+            <?php endif; ?>
         </div>
 
         <div class="card">
@@ -21,19 +121,15 @@
             <form method="POST">
                 <div class="form-group">
                     <label>Nama Lengkap</label>
-                    <input type="text" name="nama" required>
+                    <input type="text" name="nama" value="<?php echo htmlspecialchars($user['username']); ?>" required>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" name="email" required>
+                    <input type="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
                 </div>
                 <div class="form-group">
                     <label>No. Telepon</label>
-                    <input type="text" name="no_telepon" required>
-                </div>
-                <div class="form-group">
-                    <label>Tanggal Daftar</label>
-                    <input type="text" value="01 Jan 2024" disabled>
+                    <input type="text" name="no_telepon" value="<?php echo htmlspecialchars($user['no_telepon'] ?? ''); ?>" required>
                 </div>
                 <button type="submit" name="update_profile">Simpan Perubahan</button>
             </form>
@@ -61,26 +157,32 @@
         <div class="card">
             <h2>Riwayat Pemesanan</h2>
             
-            <div class="history-item">
-                <h3><img src="asset/plane.svg" alt="plane-icon">Garuda Indonesia - Ekonomi</h3>
-                <p>Rumah Billie Eilish → Ngawi</p>
-                <p><strong>Rp 3.000.000</strong> | 25 Dec 2024 | Kode: PSW001</p>
-                <span class="status">Sudah Bayar</span>
-            </div>
-
-            <div class="history-item">
-                <h3><img src="asset/train.svg" alt="train-icon">Argo Parahyangan</h3>
-                <p>Rumah Billie Eilish → Ngawi</p>
-                <p><strong>Rp 300.000</strong> | 20 Dec 2024 | Kode: KRT001</p>
-                <span class="status">Sudah Bayar</span>
-            </div>
-
-            <div class="history-item">
-                <h3><img src="asset/bus.svg" alt="bus-icon">Bus Executive</h3>
-                <p>Rumah Billie Eilish → Ngawi</p>
-                <p><strong>Rp 200.000</strong> | 15 Dec 2024 | Kode: BUS001</p>
-                <span class="status">Sudah Bayar</span>
-            </div>
+            <?php if ($bookings && $bookings->num_rows > 0): ?>
+                <?php while ($booking = $bookings->fetch_assoc()): 
+                    // Tentukan icon berdasarkan jenis
+                    $icon = 'plane.svg';
+                    $jenis = $booking['jenis'] ?? 'Pesawat';
+                    if ($jenis == 'Bus') $icon = 'bus.svg';
+                    elseif ($jenis == 'Kereta') $icon = 'train.svg';
+                    elseif ($jenis == 'Kapal') $icon = 'plane.svg';
+                ?>
+                <div class="history-item">
+                    <h3>
+                        <img src="asset/<?php echo $icon; ?>" alt="<?php echo $jenis; ?>-icon">
+                        <?php echo htmlspecialchars($booking['nama_maskapai'] ?? 'N/A'); ?>
+                    </h3>
+                    <p><?php echo htmlspecialchars($booking['dari'] ?? ''); ?> → <?php echo htmlspecialchars($booking['ke'] ?? ''); ?></p>
+                    <p>
+                        <strong>Rp <?php echo number_format($booking['total_harga'] ?? 0, 0, ',', '.'); ?></strong> | 
+                        <?php echo isset($booking['tanggal']) ? date('d M Y', strtotime($booking['tanggal'])) : 'N/A'; ?> | 
+                        Kode: <?php echo htmlspecialchars($booking['kode_booking'] ?? 'N/A'); ?>
+                    </p>
+                    <span class="status"><?php echo htmlspecialchars($booking['status_pembayaran'] ?? 'Belum Bayar'); ?></span>
+                </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p style="text-align: center; color: #666; padding: 20px;">Belum ada riwayat pemesanan</p>
+            <?php endif; ?>
         </div>
     </div>
 </body>
