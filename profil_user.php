@@ -62,14 +62,14 @@
             <h2>Riwayat Pemesanan</h2>
             
             <div class="history-item">
-                <h3><img src="asset/plane.png" alt="plane-icon">Garuda Indonesia - Ekonomi</h3>
+                <h3><img src="asset/plane.svg" alt="plane-icon">Garuda Indonesia - Ekonomi</h3>
                 <p>Rumah Billie Eilish → Ngawi</p>
                 <p><strong>Rp 3.000.000</strong> | 25 Dec 2024 | Kode: PSW001</p>
                 <span class="status">Sudah Bayar</span>
             </div>
 
             <div class="history-item">
-                <h3><img src="asset/train.png" alt="train-icon">Argo Parahyangan</h3>
+                <h3><img src="asset/train.svg" alt="train-icon">Argo Parahyangan</h3>
                 <p>Rumah Billie Eilish → Ngawi</p>
                 <p><strong>Rp 300.000</strong> | 20 Dec 2024 | Kode: KRT001</p>
                 <span class="status">Sudah Bayar</span>
@@ -85,4 +85,5 @@
     </div>
 </body>
 </html>
+
 
