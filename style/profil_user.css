@@ -128,3 +128,41 @@ button:hover {
     margin-right: 10px;
 
 }
+
+.profile-photo-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #0046ff;
+    box-shadow: 0 4px 12px rgba(0, 70, 255, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.profile-photo:hover {
+    transform: scale(1.05);
+}
+
+.file-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #dce4f3;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.file-input:hover {
+    border-color: #4a7bff;
+}
+
+.file-hint {
+    font-size: 12px;
+    color: #78808d;
+    margin-top: 5px;
+}
