@@ -12,20 +12,20 @@
     <div class="nav-container">
 
         <div class="nav-left">
-            <a href="index.php">
+            <a href="home.php">
                 <img src="asset/logo.png" class="logo" alt="Logo">
             </a>
         </div>
 
         <ul class="nav-menu">
-            <li><a href="index.php">Home</a></li>
+            <li><a href="home.php">Home</a></li>
             <li><a href="tiket.php">Tiket</a></li>
             <li><a href="#">Package</a></li>
             <li><a href="#">Blog</a></li>
         </ul>
 
         <div class="nav-right">
-            <a href="../tes.php" class="btn login" id="openPopup" >Login</a>
+            <a href="#" class="btn login" id="openPopup" >Login</a>
             <a href="#" class="btn register" id="openRegis" >Register</a>
         </div>
 

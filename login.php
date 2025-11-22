@@ -1,3 +1,68 @@
+<?php
+include 'koneksi.php'; // pastikan koneksi ke database sudah benar
+
+session_start();
+
+if (isset($_POST['login'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Cek user berdasarkan email
+    $stmt = $conn->prepare("SELECT * FROM tb_user WHERE email=? LIMIT 1");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
+        // Verifikasi password
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            echo "<script>alert('Login berhasil!'); window.location.href='index.php';</script>";
+        } else {
+            echo "<script>alert('Password salah!');</script>";
+        }
+    } else {
+        echo "<script>alert('Email tidak ditemukan!');</script>";
+    }
+}
+
+// REGISTER
+if (isset($_POST['register'])) {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $password_confirm = $_POST['password_confirm'];
+
+    if ($password !== $password_confirm) {
+        echo "<script>alert('Password dan konfirmasi password tidak sama!');</script>";
+    } else {
+        // Cek apakah email sudah terdaftar
+        $stmt = $conn->prepare("SELECT * FROM tb_user WHERE email=? LIMIT 1");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            echo "<script>alert('Email sudah digunakan!');</script>";
+        } else {
+            // Hash password
+            $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
+            $stmt = $conn->prepare("INSERT INTO tb_user (username, email, password) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $username, $email, $password_hash);
+
+            if ($stmt->execute()) {
+                echo "<script>alert('Register berhasil! Silahkan login.'); window.location.href='index.php';</script>";
+            } else {
+                echo "<script>alert('Terjadi kesalahan saat register.');</script>";
+            }
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,34 +79,40 @@
     <?php include 'component/navbar.php'; ?>
 
     <div class="popup">
-        
+
         <div class="popup-content">
-            
-            <h1>Login</h1>
-            <input type="email" placeholder="example@Gmailcom">
-            <input type="password" placeholder="*****">
-        
-        <label class="remember">
-            <input type="checkbox"> Remember me
 
-             <p> Dont have account?<b><a class="link" href="">Register</a></b></p>
-        </label>
+            <form method="POST">
+                <h1>Login</h1>
+    <input type="email" name="email" placeholder="example@gmail.com">
+    <input type="password" name="password" placeholder="*****">
+    <button type="submit" name="login">Login</button>
+</form>
 
-                      
-            <button>Login</button>
+<label class="remember">
+    <input type="checkbox"> Remember me
+
+     <p> Dont have account?<b><a class="link" href="">Register</a></b></p>
+</label>
         </div>
         </div>
     </div>
+
+    <!-- REGISTER -->
 
     <div class="popup2">
     <div class="popup-content2">
 
         <h1>Register</h1>
 
-        <input type="text" placeholder="Username">
-        <input type="email" placeholder="example@gmail.com">
-        <input type="password" placeholder="Password">
-        <input type="password" placeholder="Password confirmation">
+        <form method="POST">
+    <h1>Register</h1>
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="email" name="email" placeholder="example@gmail.com" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <input type="password" name="password_confirm" placeholder="Password confirmation" required>
+    <button type="submit" name="register">Register</button>
+</form>
 
         <label class="remember2">
             <input type="checkbox"> Remember me
