@@ -2,48 +2,30 @@
 session_start();
 include 'koneksi.php';
 
-// Cek apakah user adalah admin
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
+// Cek apakah user sudah login
+if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
 
-$admin_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];
 $message = '';
 $error = '';
 
-// Ambil data admin dari database
-$sql = "SELECT * FROM tb_user WHERE id = ? AND role = 'admin'";
+// Ambil data user dari database
+$sql = "SELECT * FROM tb_user WHERE id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $admin_id);
+$stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
-$admin = $result->fetch_assoc();
+$user = $result->fetch_assoc();
 
-// Jika admin tidak ditemukan, redirect ke login
-if (!$admin) {
+// Jika user tidak ditemukan, redirect ke login
+if (!$user) {
     session_destroy();
     header('Location: login.php');
     exit();
 }
-
-// Hitung statistik
-// Total Users
-$result_users = $conn->query("SELECT COUNT(*) as total FROM tb_user WHERE role = 'user'");
-$total_users = $result_users ? $result_users->fetch_assoc()['total'] : 0;
-
-// Total Pemesanan
-$result_bookings = $conn->query("SELECT COUNT(*) as total FROM tb_booking");
-$total_bookings = $result_bookings ? $result_bookings->fetch_assoc()['total'] : 0;
-
-// Total Pendapatan
-$result_pendapatan = $conn->query("SELECT SUM(total_harga) as total FROM tb_booking WHERE status_pembayaran = 'Sudah Bayar'");
-$data_pendapatan = $result_pendapatan ? $result_pendapatan->fetch_assoc() : null;
-$pendapatan = ($data_pendapatan && $data_pendapatan['total']) ? $data_pendapatan['total'] : 0;
-
-// Menunggu Verifikasi
-$result_pending = $conn->query("SELECT COUNT(*) as total FROM tb_booking WHERE status_pembayaran = 'Pending'");
-$pending = $result_pending ? $result_pending->fetch_assoc()['total'] : 0;
 
 // Proses update profile
 if (isset($_POST['update_profile'])) {
@@ -53,16 +35,16 @@ if (isset($_POST['update_profile'])) {
     
     $sql = "UPDATE tb_user SET username = ?, email = ?, no_telepon = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssi", $nama, $email, $no_telepon, $admin_id);
+    $stmt->bind_param("sssi", $nama, $email, $no_telepon, $user_id);
     
     if ($stmt->execute()) {
         $message = "Profil berhasil diperbarui!";
-        // Refresh data admin
+        // Refresh data user
         $stmt = $conn->prepare("SELECT * FROM tb_user WHERE id = ?");
-        $stmt->bind_param("i", $admin_id);
+        $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
-        $admin = $result->fetch_assoc();
+        $user = $result->fetch_assoc();
     } else {
         $error = "Gagal memperbarui profil!";
     }
@@ -75,12 +57,12 @@ if (isset($_POST['update_password'])) {
     $konfirmasi_password = $_POST['konfirmasi_password'];
     
     // Verifikasi password lama
-    if (password_verify($password_lama, $admin['password'])) {
+    if (password_verify($password_lama, $user['password'])) {
         if ($password_baru === $konfirmasi_password) {
             $hashed_password = password_hash($password_baru, PASSWORD_DEFAULT);
             $sql = "UPDATE tb_user SET password = ? WHERE id = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("si", $hashed_password, $admin_id);
+            $stmt->bind_param("si", $hashed_password, $user_id);
             
             if ($stmt->execute()) {
                 $message = "Password berhasil diperbarui!";
@@ -95,31 +77,33 @@ if (isset($_POST['update_password'])) {
     }
 }
 
-// Ambil aktivitas terakhir
-$sql = "SELECT b.*, t.nama_maskapai, t.jenis, u.username 
+// Ambil riwayat booking
+$sql = "SELECT b.*, t.jenis, t.nama_maskapai, t.dari, t.ke, t.tanggal 
         FROM tb_booking b 
         JOIN tb_tiket t ON b.tiket_id = t.id 
-        JOIN tb_user u ON b.user_id = u.id 
-        ORDER BY b.tanggal_booking DESC 
-        LIMIT 10";
-$aktivitas = $conn->query($sql);
+        WHERE b.user_id = ? 
+        ORDER BY b.tanggal_booking DESC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$bookings = $stmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - Travel Ticket</title>
+    <title>Profil User - Travel Ticket</title>
     <link rel="stylesheet" href="component/navbar.css">
-    <link rel="stylesheet" href="style/profil_admin.css">
+    <link rel="stylesheet" href="style/profil_user.css">
 </head>
 <body>
     <?php include 'component/navbar.php'; ?>
 
     <div class="container">
-        <div class="header-card">
-            <h1>Dashboard Admin</h1>
-            <p class="subtitle">Kelola sistem dan data travel ticket</p>
+        <div class="card">
+            <h1>Profil Saya</h1>
+            <p class="subtitle">Kelola informasi profil Anda</p>
             <?php if ($message): ?>
                 <div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 10px 0;">
                     <?php echo $message; ?>
@@ -132,69 +116,27 @@ $aktivitas = $conn->query($sql);
             <?php endif; ?>
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon user-icon"></div>
-                <div class="stat-info">
-                    <h3>Total Users</h3>
-                    <p class="stat-number"><?php echo number_format($total_users); ?></p>
-                    <span class="stat-change positive">User terdaftar</span>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon ticket-icon"></div>
-                <div class="stat-info">
-                    <h3>Total Pemesanan</h3>
-                    <p class="stat-number"><?php echo number_format($total_bookings); ?></p>
-                    <span class="stat-change positive">Pemesanan</span>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon money-icon"></div>
-                <div class="stat-info">
-                    <h3>Pendapatan</h3>
-                    <p class="stat-number">Rp <?php echo number_format($pendapatan / 1000000, 1); ?>M</p>
-                    <span class="stat-change positive">Total pendapatan</span>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon pending-icon"></div>
-                <div class="stat-info">
-                    <h3>Menunggu Verifikasi</h3>
-                    <p class="stat-number"><?php echo $pending; ?></p>
-                    <span class="stat-change neutral">Perlu ditinjau</span>
-                </div>
-            </div>
-        </div>
-
         <div class="card">
-            <h2>Informasi Admin</h2>
+            <h2>Informasi Profil</h2>
             <form method="POST">
                 <div class="form-group">
                     <label>Nama Lengkap</label>
-                    <input type="text" name="nama" value="<?php echo htmlspecialchars($admin['username']); ?>" placeholder="Nama" required>
+                    <input type="text" name="nama" value="<?php echo htmlspecialchars($user['username']); ?>" required>
                 </div>
                 <div class="form-group">
-                    <label>Email Admin</label>
-                    <input type="email" name="email" value="<?php echo htmlspecialchars($admin['email']); ?>" placeholder="ex@tarvelticket.com" required>
+                    <label>Email</label>
+                    <input type="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
                 </div>
                 <div class="form-group">
                     <label>No. Telepon</label>
-                    <input type="text" name="no_telepon" value="<?php echo htmlspecialchars($admin['no_telepon'] ?? ''); ?>" placeholder="+62" required>
-                </div>
-                <div class="form-group">
-                    <label>Role</label>
-                    <input type="text" value="<?php echo ucfirst($admin['role']); ?>" disabled>
+                    <input type="text" name="no_telepon" value="<?php echo htmlspecialchars($user['no_telepon'] ?? ''); ?>" required>
                 </div>
                 <button type="submit" name="update_profile">Simpan Perubahan</button>
             </form>
         </div>
 
         <div class="card">
-            <h2>Keamanan Akun</h2>
+            <h2>Ubah Password</h2>
             <form method="POST">
                 <div class="form-group">
                     <label>Password Lama</label>
@@ -213,62 +155,37 @@ $aktivitas = $conn->query($sql);
         </div>
 
         <div class="card">
-            <h2>Aktivitas Terakhir</h2>
-            <div class="activity-list">
-                <?php if ($aktivitas && $aktivitas->num_rows > 0): ?>
-                    <?php while ($activity = $aktivitas->fetch_assoc()): 
-                        // Tentukan icon dan class berdasarkan status
-                        $icon_class = 'info';
-                        $title = 'Pemesanan Baru';
-                        $status = $activity['status_pembayaran'] ?? 'Belum Bayar';
-                        if ($status == 'Sudah Bayar') {
-                            $icon_class = 'success';
-                            $title = 'Pembayaran Berhasil';
-                        } elseif ($status == 'Pending') {
-                            $icon_class = 'warning';
-                            $title = 'Pembayaran Pending';
-                        }
-                        
-                        // Hitung waktu yang lalu
-                        $tanggal_booking = $activity['tanggal_booking'] ?? date('Y-m-d H:i:s');
-                        $time_diff = time() - strtotime($tanggal_booking);
-                        if ($time_diff < 3600) {
-                            $time_ago = floor($time_diff / 60) . ' menit yang lalu';
-                        } elseif ($time_diff < 86400) {
-                            $time_ago = floor($time_diff / 3600) . ' jam yang lalu';
-                        } else {
-                            $time_ago = floor($time_diff / 86400) . ' hari yang lalu';
-                        }
-                    ?>
-                    <div class="activity-item">
-                        <div class="activity-icon <?php echo $icon_class; ?>"></div>
-                        <div class="activity-details">
-                            <h3><?php echo $title; ?></h3>
-                            <p>
-                                User "<?php echo htmlspecialchars($activity['username'] ?? 'N/A'); ?>" - 
-                                Booking <?php echo htmlspecialchars($activity['kode_booking'] ?? 'N/A'); ?> 
-                                (<?php echo htmlspecialchars($activity['nama_maskapai'] ?? 'N/A'); ?>)
-                            </p>
-                            <span class="time"><?php echo $time_ago; ?></span>
-                        </div>
-                    </div>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <p style="text-align: center; color: #666; padding: 20px;">Belum ada aktivitas</p>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Aksi Cepat</h2>
-            <div class="quick-actions">
-                <button class="action-btn blue" onclick="alert('Fitur dalam pengembangan')">Kelola User</button>
-                <button class="action-btn orange" onclick="alert('Fitur dalam pengembangan')">Kelola Tiket</button>
-                <button class="action-btn green" onclick="alert('Fitur dalam pengembangan')">Laporan Keuangan</button>
-                <button class="action-btn purple" onclick="alert('Fitur dalam pengembangan')">Pengaturan Sistem</button>
-            </div>
+            <h2>Riwayat Pemesanan</h2>
+            
+            <?php if ($bookings && $bookings->num_rows > 0): ?>
+                <?php while ($booking = $bookings->fetch_assoc()): 
+                    // Tentukan icon berdasarkan jenis
+                    $jenis = $booking['jenis'] ?? 'Pesawat';
+                    $icon = 'plane.svg';
+                    if ($jenis == 'Bus') $icon = 'bus.svg';
+                    elseif ($jenis == 'Kereta') $icon = 'train.svg';
+                ?>
+                <div class="history-item">
+                    <h3>
+                        <img src="asset/<?php echo $icon; ?>" alt="<?php echo $jenis; ?>-icon">
+                        <?php echo htmlspecialchars($booking['nama_maskapai'] ?? 'N/A'); ?>
+                    </h3>
+                    <p><?php echo htmlspecialchars($booking['dari'] ?? ''); ?> → <?php echo htmlspecialchars($booking['ke'] ?? ''); ?></p>
+                    <p><small>Tanggal Keberangkatan: <?php echo isset($booking['tanggal']) ? date('d M Y', strtotime($booking['tanggal'])) : 'N/A'; ?></small></p>
+                    <p>
+                        <strong>Rp <?php echo number_format($booking['total_harga'] ?? 0, 0, ',', '.'); ?></strong> | 
+                        Dibooking: <?php echo isset($booking['tanggal_booking']) ? date('d M Y', strtotime($booking['tanggal_booking'])) : 'N/A'; ?> | 
+                        Kode: <?php echo htmlspecialchars($booking['kode_booking'] ?? 'N/A'); ?>
+                    </p>
+                    <span class="status"><?php echo htmlspecialchars($booking['status_pembayaran'] ?? 'Belum Bayar'); ?></span>
+                </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p style="text-align: center; color: #666; padding: 20px;">Belum ada riwayat pemesanan</p>
+            <?php endif; ?>
         </div>
     </div>
 </body>
 </html>
+
 
