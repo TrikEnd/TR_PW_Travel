@@ -16,7 +16,7 @@
         
         <div class="bus"></div>
         <div class="pesawat"></div>
-        <div class="kapal"></div>
+        <div class="kereta"></div>
     </div>
 
     
