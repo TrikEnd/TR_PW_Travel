@@ -239,3 +239,63 @@
 .card-right button:hover {
     background: #d94c1d;
 }
+
+/* ======================== */
+/* DROPDOWN FILTER URUTKAN  */
+/* ======================== */
+
+.drop-down-filter {
+    position: relative;
+    display: inline-block;
+}
+
+/* Tombol utama dropdown */
+.drop-down-btn {
+    padding: 10px 18px;
+    border-radius: 30px;
+    border: 2px solid #1f2f56;
+    background-color: #eef2f8;
+    color: #1f2f56;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+    user-select: none;
+}
+
+.drop-down-btn:hover {
+    background-color: #dce4f3;
+}
+
+/* Isi dropdown */
+.filter-content {
+    display: none;
+    position: absolute;
+    top: 48px;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    min-width: 170px;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
+    padding: 10px 0;
+    z-index: 100;
+}
+
+/* Item di dalam dropdown */
+.filter-content a {
+    display: block;
+    padding: 10px 18px;
+    text-decoration: none;
+    color: #1f2f56;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.filter-content a:hover {
+    background-color: #f1f4fa;
+}
+
+/* Saat dropdown terbuka */
+.show-dropdown {
+    display: block;
+}

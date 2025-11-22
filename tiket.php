@@ -111,16 +111,18 @@ $result = $conn->query($query);
 <script>
 // Dropdown
 const sortBtn = document.getElementById("sortBtn");
+const sortMenu = document.getElementById("sortMenu");
+
 sortBtn.onclick = function () {
-    const menu = document.getElementById("sortMenu");
-    menu.style.display = menu.style.display === "block" ? "none" : "block";
+    sortMenu.classList.toggle("show-dropdown");
 };
 
 document.addEventListener("click", function(e){
     if (!e.target.closest(".drop-down-filter")) {
-        document.getElementById("sortMenu").style.display = "none";
+        sortMenu.classList.remove("show-dropdown");
     }
 });
+
 </script>
 
 </body>

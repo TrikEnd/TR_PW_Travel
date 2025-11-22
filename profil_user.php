@@ -65,10 +65,9 @@ if (isset($_POST['update_password'])) {
 }
 ?>
 
-=======
-include 'koneksi.php';
+<?php include 'koneksi.php';
 
-// Cek apakah user sudah login
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
@@ -168,11 +167,11 @@ $bookings = $stmt->get_result();
 </head>
 <body>
 
-<<<<<<< HEAD
+
 <?php include 'component/navbar.php'; ?>
 
 <div class="container">
-=======
+
     <div class="container">
         <div class="card">
             <h1>Profil Saya</h1>
@@ -207,7 +206,7 @@ $bookings = $stmt->get_result();
                 <button type="submit" name="update_profile">Simpan Perubahan</button>
             </form>
         </div>
->>>>>>> 4a5ebb4c6329c07329aa31e8cfb4a5df68ed9f32
+
 
     <!-- PROFIL -->
     <div class="card">
@@ -215,7 +214,7 @@ $bookings = $stmt->get_result();
         <p class="subtitle">Kelola informasi profil Anda</p>
     </div>
 
-<<<<<<< HEAD
+
     <div class="card">
         <h2>Informasi Profil</h2>
 

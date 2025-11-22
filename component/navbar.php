@@ -75,11 +75,7 @@
 
         <div class="nav-right">
             <a href="profil_user.php" class="btn profile">
-<<<<<<< HEAD
                 Halo, <b><?php echo $_SESSION['username']; ?></b>
-=======
-                Halo, <b><?= $_SESSION['username'] ?></b>
->>>>>>> 4a5ebb4c6329c07329aa31e8cfb4a5df68ed9f32
             </a>
             <a href="logout.php" class="btn logout">Logout</a>
         </div>
