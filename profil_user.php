@@ -76,6 +76,68 @@ if (isset($_POST['update_password'])) {
     }
 }
 
+// Fungsi untuk mendapatkan path foto profil user
+function getFotoProfilPath($user_id) {
+    $extensions = ['jpg', 'jpeg', 'png', 'gif'];
+    foreach ($extensions as $ext) {
+        $filepath = "asset/uploads/profile_" . $user_id . "." . $ext;
+        if (file_exists($filepath)) {
+            return $filepath;
+        }
+    }
+    return 'asset/defaultphotoprofile.png';
+}
+
+// Proses update foto profil
+if (isset($_POST['update_foto'])) {
+    if (isset($_FILES['foto_profil']) && $_FILES['foto_profil']['error'] == 0) {
+        $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+        $filename = $_FILES['foto_profil']['name'];
+        $filetype = pathinfo($filename, PATHINFO_EXTENSION);
+        $filesize = $_FILES['foto_profil']['size'];
+        
+        // Validasi tipe file
+        if (!in_array(strtolower($filetype), $allowed)) {
+            $error = "Format file tidak didukung! Gunakan JPG, JPEG, PNG, atau GIF.";
+        }
+        // Validasi ukuran file (max 2MB)
+        elseif ($filesize > 2 * 1024 * 1024) {
+            $error = "Ukuran file terlalu besar! Maksimal 2MB.";
+        }
+        else {
+            // Buat folder uploads jika belum ada
+            if (!file_exists('asset/uploads')) {
+                mkdir('asset/uploads', 0777, true);
+            }
+            
+            // Hapus foto lama dengan ekstensi apapun
+            $extensions = ['jpg', 'jpeg', 'png', 'gif'];
+            foreach ($extensions as $ext) {
+                $old_file = "asset/uploads/profile_" . $user_id . "." . $ext;
+                if (file_exists($old_file)) {
+                    unlink($old_file);
+                }
+            }
+            
+            // Nama file berdasarkan user_id saja
+            $newfilename = 'profile_' . $user_id . '.' . strtolower($filetype);
+            $upload_path = 'asset/uploads/' . $newfilename;
+            
+            // Upload file
+            if (move_uploaded_file($_FILES['foto_profil']['tmp_name'], $upload_path)) {
+                $message = "Foto profil berhasil diperbarui!";
+            } else {
+                $error = "Gagal mengupload file!";
+            }
+        }
+    } else {
+        $error = "Tidak ada file yang dipilih!";
+    }
+}
+
+// Dapatkan path foto profil
+$foto_profil = getFotoProfilPath($user_id);
+
 // Ambil riwayat booking
 $sql = "SELECT b.*, t.jenis, t.nama_maskapai, t.dari, t.ke, t.tanggal 
         FROM tb_booking b 
@@ -120,6 +182,27 @@ $bookings = $stmt->get_result();
                 <?php echo htmlspecialchars($error); ?>
             </div>
         <?php endif; ?>
+    </div>
+
+    <div class="card">
+        <h2>Foto Profil</h2>
+        
+        <div class="profile-photo-container">
+            <img src="<?php echo htmlspecialchars($foto_profil); ?>" 
+                 alt="Foto Profil" 
+                 class="profile-photo">
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Pilih Foto Baru</label>
+                <input type="file" name="foto_profil" accept="image/*" class="file-input">
+                <div class="file-hint">
+                    Format: JPG, JPEG, PNG, GIF. Maksimal 2MB.
+                </div>
+            </div>
+            <button type="submit" name="update_foto">Upload Foto</button>
+        </form>
     </div>
 
     <div class="card">
