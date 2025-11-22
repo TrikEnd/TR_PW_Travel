@@ -13,8 +13,7 @@
 
         <div class="nav-left">
             <a href="index.php">
-                <!-- <img src="asset/logo.png" class="logo" alt="Logo"> -->
-                <img src="asset/logo-hitam.png" class="logo" alt="Logo">
+                <img src="asset/logo.png" class="logo" alt="Logo">
             </a>
         </div>
 
@@ -26,13 +25,14 @@
         </ul>
 
         <div class="nav-right">
-            <a href="login.php" class="btn login">Login</a>
-            <a href="register.php" class="btn register">Register</a>
+            <a href="../tes.php" class="btn login" id="openPopup" >Login</a>
+            <a href="#" class="btn register" id="openRegis" >Register</a>
         </div>
 
     </div>
 </nav>
 <div class="navbar-space"></div>
+
 
 </body>
 </html>

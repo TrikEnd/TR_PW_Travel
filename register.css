@@ -1,0 +1,104 @@
+
+
+/* POPUP FULLSCREEN */
+.popup2 {
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    position: fixed;   /* WAJIB FIX */
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+.link2 a{
+    
+    margin-left: 20px;
+    
+}
+/* POPUP BOX */
+.popup-content2 {
+    width: 500px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.popup-content2 input {
+    width: 70%;
+    padding: 8px;
+    margin: 15px 0;
+    border: 1px solid gray;
+    border-radius:8px ;
+}
+
+.popup-content2 button {
+    width: 70%;
+    padding: 8px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border: 1px solid rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    background-color: green;
+}
+.remember2 {
+    width: 350px;
+    margin: 5px 0 10px 65px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.remember2 input {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+.remember2 p{
+    margin-left: 88px;
+}
+/* BACKGROUND POPUP */
+.popup2 {
+    display: none;                 /* default tersembunyi */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;                  /* agar di atas navbar */
+}
+
+/* Saat aktif */
+.popup2.show2 {
+    display: flex;
+}
+
+
+/* Tombol close (X) */
+.close-popup2 {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ff4d4d;
+    color: white;
+    width: 26px;
+    height: 26px;
+    text-align: center;
+    line-height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+
+
+

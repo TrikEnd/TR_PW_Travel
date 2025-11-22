@@ -30,7 +30,7 @@ $result = $conn->query($query);
     <link rel="stylesheet" href="style/tiket.css">
 </head>
 <body>
-<?php include 'component/navbar.php'; ?>
+<?php include 'login.php';?>
 
 <div class="container">
 <img class="banner-tiket" src="asset/1621823158319-c40708cee7aef086cbd23b5a6e68da3c.webp" alt="">
