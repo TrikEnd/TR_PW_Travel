@@ -75,7 +75,7 @@ input:disabled {
 }
 
 button {
-    background: #ff5722;
+    background: #0046ff;
     color: white;
     padding: 12px 30px;
     border: none;
@@ -87,7 +87,9 @@ button {
 }
 
 button:hover {
-    background: #d94c1d;
+    background: #0026ff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .history-item {
@@ -124,4 +126,5 @@ button:hover {
     width: 20px;
     height: 20px;
     margin-right: 10px;
+
 }
