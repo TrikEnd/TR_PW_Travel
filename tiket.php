@@ -1,20 +1,24 @@
 <?php
-    include 'koneksi.php';
-    
+include 'koneksi.php';
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
- // memanggil koneksi database
-
+// Ambil parameter GET
 $jenis = isset($_GET['jenis']) ? $_GET['jenis'] : 'Bus';
 $sort  = isset($_GET['sort']) ? $_GET['sort'] : '';
 
+// Query tiket sesuai jenis
 $query = "SELECT * FROM tb_tiket WHERE jenis='$jenis'";
 
-// Sorting berdasarkan bulan
+// Sorting
 if ($sort == 'Januari' || $sort == 'Februari' || $sort == 'Maret') {
     $query .= " ORDER BY tanggal ASC";
+} elseif ($sort == 'harga_tertinggi') {
+    $query .= " ORDER BY harga DESC";
+} elseif ($sort == 'harga_terendah') {
+    $query .= " ORDER BY harga ASC";
 }
 
 $result = $conn->query($query);
@@ -39,16 +43,26 @@ $result = $conn->query($query);
             <span class="filter-title">Pilih Jenis Tiket:</span>
             <div class="filter-item-tiket"><a href="?jenis=Bus"><button class="filter-tiket-btn <?= $jenis=='Bus'?'active-filter':'' ?>">Bus</button></a></div>
             <div class="filter-item-tiket"><a href="?jenis=Pesawat"><button class="filter-tiket-btn <?= $jenis=='Pesawat'?'active-filter':'' ?>">Pesawat</button></a></div>
-            <div class="filter-item-tiket"><a href="?jenis=Kapal"><button class="filter-tiket-btn <?= $jenis=='Kapal'?'active-filter':'' ?>">Kapal</button></a></div>
+            <div class="filter-item-tiket"><a href="?jenis=Kereta"><button class="filter-tiket-btn <?= $jenis=='Kereta'?'active-filter':'' ?>">Kereta</button></a></div>
         </div>
 
         <div class="right-filter">
             <div class="drop-down-filter">
-                <div class="drop-down-btn" id="sortBtn">URUTKAN ✓</div>
+                <div class="drop-down-btn" id="sortBtn">
+                    URUTKAN: 
+                    <?php
+                        // Tampilkan label sorting saat ini
+                        if ($sort == 'Januari') echo 'Januari';
+                        elseif ($sort == 'Februari') echo 'Februari';
+                        elseif ($sort == 'Maret') echo 'Maret';
+                        elseif ($sort == 'harga_tertinggi') echo 'Harga Tertinggi';
+                        elseif ($sort == 'harga_terendah') echo 'Harga Terendah';
+                        else echo '✓';
+                    ?>
+                </div>
                 <div class="filter-content" id="sortMenu">
-                    <a href="?jenis=<?= $jenis ?>&sort=Januari">Januari</a>
-                    <a href="?jenis=<?= $jenis ?>&sort=Februari">Februari</a>
-                    <a href="?jenis=<?= $jenis ?>&sort=Maret">Maret</a>
+                    <a href="?jenis=<?= $jenis ?>&sort=harga_tertinggi">Harga Tertinggi</a>
+                    <a href="?jenis=<?= $jenis ?>&sort=harga_terendah">Harga Terendah</a>
                 </div>
             </div>
         </div>

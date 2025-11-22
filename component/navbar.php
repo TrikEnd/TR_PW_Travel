@@ -74,8 +74,8 @@
         </ul>
 
         <div class="nav-right">
-            <a href="profile.php" class="btn profile">
-                Halo, <b><?= $_SESSION['username'] ?></b>
+            <a href="profil_user.php" class="btn profile">
+                Halo, <b><?php echo $_SESSION['username']; ?></b>
             </a>
             <a href="logout.php" class="btn logout">Logout</a>
         </div>
