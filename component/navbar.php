@@ -1,4 +1,3 @@
-
 <?php if (!isset($_SESSION['user_id'])): ?>
 
 <!-- ================================= -->
@@ -75,11 +74,7 @@
 
         <div class="nav-right">
             <a href="profil_user.php" class="btn profile">
-<<<<<<< HEAD
                 Halo, <b><?php echo $_SESSION['username']; ?></b>
-=======
-                Halo, <b><?php echo htmlspecialchars($_SESSION['username']); ?></b>
->>>>>>> 6fcf5149da0635b7871c6bb7f9f6721932f90a7c
             </a>
             <a href="logout.php" class="btn logout">Logout</a>
         </div>
