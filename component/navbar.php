@@ -74,7 +74,7 @@
 
         <div class="nav-right">
             <?php
-            // Cek apakah user adalah admin
+            // Cek user admin
             require_once 'koneksi.php';
             $user_id = $_SESSION['user_id'];
             $stmt = $conn->prepare("SELECT role FROM tb_user WHERE id = ?");

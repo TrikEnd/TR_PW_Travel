@@ -7,6 +7,6 @@ session_unset();
 // Hancurkan session
 session_destroy();
 
-// Redirect ke halaman home (atau index)
+// Redirect ke halaman home
 header("Location: home.php");
 exit();

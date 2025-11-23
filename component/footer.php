@@ -100,9 +100,8 @@
         <div class="footer-section">
             <h4>Menu</h4>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Package</a></li>
-                <li><a href="#">Blog</a></li>
+                <li><a href="../Home.php">Beranda</a></li>
+                <li><a href="../tiket.php">Tiket</a></li>
                 
             </ul>
         </div>
