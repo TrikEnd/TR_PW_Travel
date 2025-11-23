@@ -171,7 +171,6 @@ body {
     border: 1px solid #d1d5db;
 }
 
-/* RIGHT PANEL */
 .flight-info {
     font-size: 13px;
     line-height: 1.5;
@@ -187,7 +186,6 @@ body {
 
 .mt-2 { margin-top: 8px; }
 
-/* PRICE CARD */
 .price-row {
     display: flex;
     justify-content: space-between;
@@ -202,7 +200,6 @@ body {
     padding-top: 10px;
 }
 
-/* SEAT ROW */
 .seat-row {
     display: flex;
     gap: 8px;
@@ -214,7 +211,6 @@ body {
     background-color: #f9fafb;
 }
 
-/* MODAL KURSI */
 .seat-modal-backdrop {
     display: none;          /* default hidden */
     position: fixed;
@@ -291,7 +287,6 @@ body {
     border-color: #0d63d4;
 }
 
-/* GRID KURSI */
 .seat-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -331,30 +326,26 @@ body {
     gap: 8px;
 }
 
-/* ===== HEADER FIX ===== */
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 20px;       /* KECILKAN padding-nya */
-    background: #ffffff;      /* biru header */
+    padding: 12px 20px;      
+    background: #ffffff;      
     color: black;
     border-bottom: 1px solid #e5e7eb;
 }
 
-/* Biar gambar logo nggak gede */
 .header-logo {
-    height: 55px;             /* ukuran logo yang pas */
+    height: 55px;            
     width: auto;
 }
 
-/* Biar teks step-info rata kanan rapi */
 .step-info {
     font-size: 16px;
     font-weight: 500;
 }
 
-/* hapus efek dorong ke bawah */
 .navbar-space {
     height: 0 !important;
 }
@@ -372,3 +363,4 @@ body {
         padding: 0 12px;
     }
 }
+
