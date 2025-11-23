@@ -100,7 +100,7 @@ $result = $conn->query($query);
 
                 <div class="card-right">
                     <div class="price">Rp <?= number_format($row['harga'],0,',','.') ?> <span>/org</span></div>
-                    <button>Pilih</button>
+                    <a href="booking.php?tiket_id=<?= $row['id'] ?>">Pilih</a>
                 </div>
             </div>
         <?php endwhile; ?>
