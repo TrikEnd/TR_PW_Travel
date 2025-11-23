@@ -73,9 +73,30 @@
         </ul>
 
         <div class="nav-right">
-            <a href="profil_user.php" class="btn profile">
-                Halo, <b><?php echo $_SESSION['username']; ?></b>
-            </a>
+            <?php
+            // Cek apakah user adalah admin
+            require_once 'koneksi.php';
+            $user_id = $_SESSION['user_id'];
+            $stmt = $conn->prepare("SELECT role FROM tb_user WHERE id = ?");
+            $stmt->bind_param("i", $user_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $user_data = $result->fetch_assoc();
+            $is_admin = ($user_data && $user_data['role'] == 'admin');
+            ?>
+            
+            <?php if ($is_admin): ?>
+                <!-- Tombol untuk Admin -->
+                <a href="admin_dashboard.php" class="btn admin-dashboard">
+                    Dashboard Admin
+                </a>
+            <?php else: ?>
+                <!-- Tombol untuk User Biasa -->
+                <a href="profil_user.php" class="btn profile">
+                    Halo, <b><?php echo $_SESSION['username']; ?></b>
+                </a>
+            <?php endif; ?>
+            
             <a href="logout.php" class="btn-logout" onclick="return confirm('Yakin ingin logout?');">Keluar</a>
         </div>
 
