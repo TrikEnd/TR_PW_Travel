@@ -138,7 +138,7 @@
     const openBtn = document.getElementById('openPopup');   // Tombol buka Login
     const openBtn2 = document.getElementById('openRegis');  // Tombol buka Register
 
-    // ✅ SIMPAN URL HALAMAN SEKARANG
+    // SIMPAN URL HALAMAN SEKARANG
     function saveReturnURL() {
         fetch('save_return_url.php', {
             method: 'POST',
@@ -148,13 +148,13 @@
         });
     }
 
-    // ✅ BUTTON CLOSE LOGIN
+    // BUTTON CLOSE LOGIN
     const closePopup = document.createElement('div');
     closePopup.innerHTML = "&times;";
     closePopup.classList.add('close-popup');
     document.querySelector('.popup-content').appendChild(closePopup);
 
-    // ✅ BUKA LOGIN
+    // BUKA LOGIN
     openBtn.addEventListener('click', (e) => {
         e.preventDefault();
         saveReturnURL();
@@ -162,23 +162,23 @@
         popup2.classList.remove('show2');
     });
 
-    // ✅ TUTUP LOGIN
+    // TUTUP LOGIN
     closePopup.addEventListener('click', () => {
         popup.classList.remove('show');
     });
 
-    // ✅ KLIK DI LUAR LOGIN
+    // KLIK DI LUAR LOGIN
     popup.addEventListener('click', (e) => {
         if (e.target === popup) popup.classList.remove('show');
     });
 
-    // ✅ BUTTON CLOSE REGISTER
+    // BUTTON CLOSE REGISTER
     const closePopup2 = document.createElement('div');
     closePopup2.innerHTML = "&times;";
     closePopup2.classList.add('close-popup2');
     document.querySelector('.popup-content2').appendChild(closePopup2);
 
-    // ✅ BUKA REGISTER
+    // BUKA REGISTER
     openBtn2.addEventListener('click', (e) => {
         e.preventDefault();
         saveReturnURL();
@@ -186,12 +186,12 @@
         popup.classList.remove('show');
     });
 
-    // ✅ TUTUP REGISTER
+    // TUTUP REGISTER
     closePopup2.addEventListener('click', () => {
         popup2.classList.remove('show2');
     });
 
-    // ✅ KLIK DI LUAR REGISTER
+    // KLIK DI LUAR REGISTER
     popup2.addEventListener('click', (e) => {
         if (e.target === popup2) popup2.classList.remove('show2');
     });
