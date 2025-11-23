@@ -73,8 +73,15 @@
     color: #d6eeee;
 }
 
+.social a img {
+    width: 25px;
+    height: 25px;
+}
 
-
+.social p img {
+    width: 13px;
+    height: 13px;
+}
   </style>
   </head>
 
@@ -112,15 +119,13 @@
         <div class="footer-section">
             <h4>Ikuti kami</h4>
             <div class="social">
-                <a href="#">🌐</a>
-                <a href="#">📸</a>
-                <a href="#">▶️</a>
-                <a href="#">🐦</a>
+                <a href="#"><img src="asset/logo/instagram.png" alt=""></a>
+                <a href="#"><img src="asset/logo/twitter.png" alt=""></a>
                 <br>
                 <br>
                 <br>
                 
-                <p class="cp">kontak: +62 821-3838-9934 </p>
+                <p class="cp"><img src="asset/logo/phone.png" alt=""> +62 821-3838-9934 </p>
             </div>
         </div>
 

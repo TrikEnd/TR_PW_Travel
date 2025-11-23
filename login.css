@@ -59,7 +59,11 @@
 }
 
 .remember p{
-    margin-left: 25px;
+    margin-left: 60px;
+}
+
+.remember p a{
+    color: #0593f3;
 }
 /* BACKGROUND POPUP */
 .popup {

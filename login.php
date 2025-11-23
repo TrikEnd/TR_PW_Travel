@@ -93,15 +93,15 @@
             <div class="popup-content">
 
                 <form method="POST">
-                    <h1>Login</h1>
+                    <h1>Log In</h1>
         <input type="email" name="email" placeholder="example@gmail.com">
         <input type="password" name="password" placeholder="*">
         
         <label class="remember">
-            <input type="checkbox"> Remember me
-            <p> Dont have account?<b><a class="link" href="">Register</a></b></p>
+            <input type="checkbox"> Ingat saya
+            <p>Belum punya akun?<b><a class="link" href=""> Daftar</a></b></p>
         </label>
-        <button type="submit" name="login">Login</button>
+        <button type="submit" name="login">Log In</button>
     </form>
             </div>
             </div>
@@ -114,17 +114,17 @@
 
 
             <form method="POST">
-        <h1>Register</h1>
+        <h1>Daftar</h1>
         <input type="text" name="username" placeholder="Username" required>
         <input type="email" name="email" placeholder="example@gmail.com" required>
         <input type="password" name="password" placeholder="Password" required>
         <input type="password" name="password_confirm" placeholder="Password confirmation" required>
         
         <label class="remember2">
-            <input type="checkbox"> Remember me
-            <p>Have account? <b><a href="" class="link2">Login</a></b></p>
+            <input type="checkbox"> Ingat saya
+            <p>Punya akun? <b><a href="" class="link2">Log in</a></b></p>
         </label>
-        <button type="submit" name="register">Register</button>
+        <button type="submit" name="register">Konfirmasi</button>
         
     </form>
     

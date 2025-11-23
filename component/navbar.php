@@ -1,7 +1,7 @@
 <?php if (!isset($_SESSION['user_id'])): ?>
 
 <!-- ================================= -->
-<!-- NAVBAR SAAT BELUM LOGIN           -->
+<!-- NAVBAR SEBELUM LOGIN              -->
 <!-- ================================= -->
 <!DOCTYPE html>
 <html lang="en">
@@ -23,15 +23,15 @@
         </div>
 
         <ul class="nav-menu">
-            <li><a href="home.php">Home</a></li>
+            <li><a href="home.php">Beranda</a></li>
             <li><a href="tiket.php">Tiket</a></li>
-            <li><a href="#">Package</a></li>
-            <li><a href="#">Blog</a></li>
+            <!-- <li><a href="#">Package</a></li>
+            <li><a href="#">Blog</a></li> -->
         </ul>
 
         <div class="nav-right">
-            <a href="#" class="btn login" id="openPopup">Login</a>
-            <a href="#" class="btn register" id="openRegis">Register</a>
+            <a href="#" class="btn login" id="openPopup">Log In</a>
+            <a href="#" class="btn register" id="openRegis">Daftar</a>
         </div>
 
     </div>
@@ -44,7 +44,7 @@
 <?php else: ?>
 
 <!-- ================================= -->
-<!-- NAVBAR SAAT SUDAH LOGIN           -->
+<!-- NAVBAR SESUDAH LOGIN              -->
 <!-- ================================= -->
 <!DOCTYPE html>
 <html lang="en">
@@ -66,17 +66,17 @@
         </div>
 
         <ul class="nav-menu">
-            <li><a href="home.php">Home</a></li>
+            <li><a href="home.php">Beranda</a></li>
             <li><a href="tiket.php">Tiket</a></li>
-            <li><a href="#">Package</a></li>
-            <li><a href="#">Blog</a></li>
+            <!-- <li><a href="#">Package</a></li>
+            <li><a href="#">Blog</a></li> -->
         </ul>
 
         <div class="nav-right">
             <a href="profil_user.php" class="btn profile">
                 Halo, <b><?php echo $_SESSION['username']; ?></b>
             </a>
-            <a href="logout.php" class="btn logout">Logout</a>
+            <a href="logout.php" class="btn logout">Keluar</a>
         </div>
 
     </div>

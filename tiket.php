@@ -52,10 +52,10 @@ $result = $conn->query($query);
                     URUTKAN: 
                     <?php
                         // Tampilkan label sorting saat ini
-                        if ($sort == 'Januari') echo 'Januari';
-                        elseif ($sort == 'Februari') echo 'Februari';
-                        elseif ($sort == 'Maret') echo 'Maret';
-                        elseif ($sort == 'harga_tertinggi') echo 'Harga Tertinggi';
+                        // if ($sort == 'Januari') echo 'Januari';
+                        // elseif ($sort == 'Februari') echo 'Februari';
+                        // elseif ($sort == 'Maret') echo 'Maret';
+                        if ($sort == 'harga_tertinggi') echo 'Harga Tertinggi';
                         elseif ($sort == 'harga_terendah') echo 'Harga Terendah';
                         else echo '✓';
                     ?>
@@ -73,16 +73,15 @@ $result = $conn->query($query);
             <div class="ticket-card">
                 <div class="card-left">
                     <div class="pesawat">
-                        <img src="<?= $row['logo'] ?>" alt="">
                         <p><?= $row['nama_maskapai'] ?></p>
                     </div>
                     <h3><?= $row['nama_rute'] ?></h3>
                     <p class="kelas"><?= $row['kelas'] ?></p>
 
-                    <div class="sub-info">
-                        <a href="#">Detail Perjalanan</a>
-                        <a href="#">Info</a>
-                    </div>
+                    <!-- <div class="sub-info"> -->
+                        <!-- <a href="#">Detail Perjalanan</a>
+                        <a href="#">Info</a> -->
+                    <!-- </div> -->
                 </div>
 
                 <div class="card-middle">

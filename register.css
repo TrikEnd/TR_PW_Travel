@@ -59,8 +59,13 @@
 }
 
 .remember2 p{
-    margin-left: 68px;
+    margin-left: 100px;
 }
+
+.remember2 p a{
+    color: #0593f3;
+}
+
 /* BACKGROUND POPUP */
 .popup2 {
     display: none;                 /* default tersembunyi */
