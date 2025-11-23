@@ -111,10 +111,13 @@ foreach ($extensions as $ext) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Travel Ticket</title>
+    <link rel="stylesheet" href="component/navbar.css">
     <link rel="stylesheet" href="style/admin_dashboard.css">
     <link rel="stylesheet" href="style/profil_admin.css">
 </head>
 <body>
+
+<?php include 'component/navbar.php'; ?>
 
 <!-- Sidebar -->
 <div class="sidebar">
