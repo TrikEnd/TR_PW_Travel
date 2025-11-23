@@ -2,7 +2,6 @@
 session_start();
 require 'koneksi.php';
 
-// Redirect jika belum login
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit;
@@ -12,21 +11,18 @@ $user_id = $_SESSION['user_id'];
 $message = '';
 $error = '';
 
-// Ambil data user dari database
 $stmt = $conn->prepare("SELECT username, email, no_telepon, password, disabilitas FROM tb_user WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
-// Jika user tidak ditemukan, redirect ke login
 if (!$user) {
     session_destroy();
     header('Location: index.php');
     exit();
 }
 
-// Proses update profile
 if (isset($_POST['update_profile'])) {
     $nama = $_POST['nama'];
     $email = $_POST['email'];
@@ -38,9 +34,7 @@ if (isset($_POST['update_profile'])) {
     
     if ($stmt->execute()) {
         $message = "Profil berhasil diperbarui!";
-        // Update session
         $_SESSION['username'] = $nama;
-        // Refresh data user
         $stmt = $conn->prepare("SELECT username, email, no_telepon, password, disabilitas FROM tb_user WHERE id = ?");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
@@ -51,13 +45,11 @@ if (isset($_POST['update_profile'])) {
     }
 }
 
-// Proses update password
 if (isset($_POST['update_password'])) {
     $password_lama = $_POST['password_lama'];
     $password_baru = $_POST['password_baru'];
     $konfirmasi_password = $_POST['konfirmasi_password'];
     
-    // Verifikasi password lama
     if (password_verify($password_lama, $user['password'])) {
         if ($password_baru === $konfirmasi_password) {
             $hashed_password = password_hash($password_baru, PASSWORD_DEFAULT);
@@ -77,7 +69,6 @@ if (isset($_POST['update_password'])) {
     }
 }
 
-// Fungsi untuk mendapatkan path foto profil user
 function getFotoProfilPath($user_id) {
     $extensions = ['jpg', 'jpeg', 'png', 'gif'];
     foreach ($extensions as $ext) {
@@ -89,7 +80,6 @@ function getFotoProfilPath($user_id) {
     return 'asset/defaultphotoprofile.png';
 }
 
-// Proses update foto profil
 if (isset($_POST['update_foto'])) {
     if (isset($_FILES['foto_profil']) && $_FILES['foto_profil']['error'] == 0) {
         $allowed = ['jpg', 'jpeg', 'png', 'gif'];
@@ -97,21 +87,17 @@ if (isset($_POST['update_foto'])) {
         $filetype = pathinfo($filename, PATHINFO_EXTENSION);
         $filesize = $_FILES['foto_profil']['size'];
         
-        // Validasi tipe file
         if (!in_array(strtolower($filetype), $allowed)) {
             $error = "Format file tidak didukung! Gunakan JPG, JPEG, PNG, atau GIF.";
         }
-        // Validasi ukuran file (max 2MB)
         elseif ($filesize > 2 * 1024 * 1024) {
             $error = "Ukuran file terlalu besar! Maksimal 2MB.";
         }
         else {
-            // Buat folder uploads jika belum ada
             if (!file_exists('asset/uploads')) {
                 mkdir('asset/uploads', 0777, true);
             }
             
-            // Hapus foto lama dengan ekstensi apapun
             $extensions = ['jpg', 'jpeg', 'png', 'gif'];
             foreach ($extensions as $ext) {
                 $old_file = "asset/uploads/profile_" . $user_id . "." . $ext;
@@ -120,11 +106,9 @@ if (isset($_POST['update_foto'])) {
                 }
             }
             
-            // Nama file berdasarkan user_id saja
             $newfilename = 'profile_' . $user_id . '.' . strtolower($filetype);
             $upload_path = 'asset/uploads/' . $newfilename;
             
-            // Upload file
             if (move_uploaded_file($_FILES['foto_profil']['tmp_name'], $upload_path)) {
                 $message = "Foto profil berhasil diperbarui!";
             } else {
@@ -136,10 +120,8 @@ if (isset($_POST['update_foto'])) {
     }
 }
 
-// Dapatkan path foto profil
 $foto_profil = getFotoProfilPath($user_id);
 
-// Ambil riwayat booking
 $sql = "SELECT b.*, t.jenis, t.nama_maskapai, t.dari, t.ke, t.tanggal 
         FROM tb_booking b 
         JOIN tb_tiket t ON b.tiket_id = t.id 
@@ -163,14 +145,12 @@ $bookings = $stmt->get_result();
 
 <div class="container">
 
-    <!-- Back Button -->
     <div style="margin-bottom: 20px;">
         <a href="Home.php" style="display: inline-block; padding: 10px 20px; background: #0046ff; color: white; text-decoration: none; border-radius: 8px; font-size: 14px; transition: 0.3s;">
             ← Kembali ke Beranda
         </a>
     </div>
 
-    <!-- PROFIL -->
     <div class="card">
         <h1>Profil Saya</h1>
         <p class="subtitle">Kelola informasi profil Anda</p>
@@ -243,7 +223,6 @@ $bookings = $stmt->get_result();
         </form>
     </div>
 
-    <!-- PASSWORD -->
     <div class="card">
         <h2>Ubah Password</h2>
 
@@ -267,13 +246,11 @@ $bookings = $stmt->get_result();
         </form>
     </div>
 
-    <!-- RIWAYAT -->
     <div class="card">
         <h2>Riwayat Pemesanan</h2>
         
         <?php if ($bookings && $bookings->num_rows > 0): ?>
             <?php while ($booking = $bookings->fetch_assoc()): 
-                // Tentukan icon berdasarkan jenis
                 $jenis = $booking['jenis'] ?? 'Pesawat';
                 $icon = 'plane.svg';
                 if ($jenis == 'Bus') $icon = 'bus.svg';

@@ -1,15 +1,12 @@
 <?php
-// Session sudah di-start di admin_dashboard.php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Koneksi sudah di-require di admin_dashboard.php
 if (!isset($conn)) {
     require 'koneksi.php';
 }
 
-// Redirect jika belum login atau bukan admin
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit;
@@ -19,20 +16,17 @@ $admin_id = $_SESSION['user_id'];
 $message = '';
 $error = '';
 
-// Ambil data admin dari database
 $stmt = $conn->prepare("SELECT username, email, no_telepon, password, role FROM tb_user WHERE id = ?");
 $stmt->bind_param("i", $admin_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $admin = $result->fetch_assoc();
 
-// Jika bukan admin, redirect
 if (!$admin || $admin['role'] != 'admin') {
     header('Location: index.php');
     exit();
 }
 
-// Proses update profile
 if (isset($_POST['update_profile'])) {
     $nama = $_POST['nama'];
     $email = $_POST['email'];
@@ -44,7 +38,6 @@ if (isset($_POST['update_profile'])) {
     if ($stmt->execute()) {
         $message = "Profil berhasil diperbarui!";
         $_SESSION['username'] = $nama;
-        // Refresh data admin
         $stmt = $conn->prepare("SELECT username, email, no_telepon, password, role FROM tb_user WHERE id = ?");
         $stmt->bind_param("i", $admin_id);
         $stmt->execute();
@@ -55,7 +48,6 @@ if (isset($_POST['update_profile'])) {
     }
 }
 
-// Proses update password
 if (isset($_POST['update_password'])) {
     $password_lama = $_POST['password_lama'];
     $password_baru = $_POST['password_baru'];
@@ -80,7 +72,6 @@ if (isset($_POST['update_password'])) {
     }
 }
 
-// Fungsi untuk mendapatkan path foto profil admin
 function getFotoProfilPath($user_id) {
     $extensions = ['jpg', 'jpeg', 'png', 'gif'];
     foreach ($extensions as $ext) {
@@ -92,7 +83,6 @@ function getFotoProfilPath($user_id) {
     return 'asset/defaultphotoprofile.png';
 }
 
-// Proses update foto profil
 if (isset($_POST['update_foto'])) {
     if (isset($_FILES['foto_profil']) && $_FILES['foto_profil']['error'] == 0) {
         $allowed = ['jpg', 'jpeg', 'png', 'gif'];
@@ -109,7 +99,6 @@ if (isset($_POST['update_foto'])) {
                 mkdir('asset/uploads', 0777, true);
             }
             
-            // Hapus foto lama
             $extensions = ['jpg', 'jpeg', 'png', 'gif'];
             foreach ($extensions as $ext) {
                 $old_file = "asset/uploads/profile_" . $admin_id . "." . $ext;
@@ -132,10 +121,8 @@ if (isset($_POST['update_foto'])) {
     }
 }
 
-// Dapatkan path foto profil
 $foto_profil = getFotoProfilPath($admin_id);
 
-// Statistik untuk dashboard
 $stmt = $conn->query("SELECT COUNT(*) as total FROM tb_user WHERE role='user'");
 $total_users = $stmt->fetch_assoc()['total'];
 
@@ -148,16 +135,13 @@ $total_tiket = $stmt->fetch_assoc()['total'];
 $stmt = $conn->query("SELECT SUM(total_harga) as total FROM tb_booking WHERE status_pembayaran='Sudah Bayar'");
 $total_revenue = $stmt->fetch_assoc()['total'] ?? 0;
 ?>
-<!-- Content Only - Digunakan di dalam admin_dashboard.php -->
 <div style="padding: 0;">
     
-    <!-- Header -->
     <div class="admin-header">
-        <h1>👨‍💼 Admin Dashboard</h1>
+        <h1><img src="asset/profile.svg" alt="Admin" style="width: 32px; height: 32px; vertical-align: middle; margin-right: 10px;"> Admin Dashboard</h1>
         <p class="subtitle">Selamat datang, <?php echo htmlspecialchars($admin['username']); ?>!</p>
     </div>
 
-    <!-- Alert Messages -->
     <?php if ($message): ?>
         <div class="alert alert-success">
             ✓ <?php echo htmlspecialchars($message); ?>
@@ -170,10 +154,11 @@ $total_revenue = $stmt->fetch_assoc()['total'] ?? 0;
         </div>
     <?php endif; ?>
 
-    <!-- Statistik Dashboard -->
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-icon">👥</div>
+            <div class="stat-icon stat-icon-users">
+                <img src="asset/profile.svg" alt="Users">
+            </div>
             <div class="stat-info">
                 <h3><?php echo $total_users; ?></h3>
                 <p>Total Users</p>
@@ -181,7 +166,9 @@ $total_revenue = $stmt->fetch_assoc()['total'] ?? 0;
         </div>
         
         <div class="stat-card">
-            <div class="stat-icon">🎫</div>
+            <div class="stat-icon stat-icon-bookings">
+                <img src="asset/booking.svg" alt="Booking">
+            </div>
             <div class="stat-info">
                 <h3><?php echo $total_bookings; ?></h3>
                 <p>Total Bookings</p>
@@ -189,7 +176,9 @@ $total_revenue = $stmt->fetch_assoc()['total'] ?? 0;
         </div>
         
         <div class="stat-card">
-            <div class="stat-icon">✈️</div>
+            <div class="stat-icon stat-icon-tickets">
+                <img src="asset/ticket.svg" alt="Tickets">
+            </div>
             <div class="stat-info">
                 <h3><?php echo $total_tiket; ?></h3>
                 <p>Total Tiket</p>
@@ -197,7 +186,9 @@ $total_revenue = $stmt->fetch_assoc()['total'] ?? 0;
         </div>
         
         <div class="stat-card">
-            <div class="stat-icon">💰</div>
+            <div class="stat-icon stat-icon-revenue">
+                <img src="asset/revenue.svg" alt="Revenue">
+            </div>
             <div class="stat-info">
                 <h3>Rp <?php echo number_format($total_revenue, 0, ',', '.'); ?></h3>
                 <p>Total Revenue</p>
@@ -205,7 +196,6 @@ $total_revenue = $stmt->fetch_assoc()['total'] ?? 0;
         </div>
     </div>
 
-    <!-- Foto Profil -->
     <div class="card">
         <h2>Foto Profil Admin</h2>
         
@@ -226,7 +216,6 @@ $total_revenue = $stmt->fetch_assoc()['total'] ?? 0;
         </form>
     </div>
 
-    <!-- Informasi Profil -->
     <div class="card">
         <h2>Informasi Profil Admin</h2>
 
@@ -246,16 +235,10 @@ $total_revenue = $stmt->fetch_assoc()['total'] ?? 0;
                 <input type="text" name="no_telepon" value="<?php echo htmlspecialchars($admin['no_telepon'] ?? ''); ?>">
             </div>
 
-            <div class="form-group">
-                <label>Role</label>
-                <input type="text" value="<?php echo strtoupper($admin['role']); ?>" disabled>
-            </div>
-
             <button type="submit" name="update_profile" class="btn btn-primary">Simpan Perubahan</button>
         </form>
     </div>
 
-    <!-- Ubah Password -->
     <div class="card">
         <h2>Ubah Password</h2>
 
@@ -280,4 +263,3 @@ $total_revenue = $stmt->fetch_assoc()['total'] ?? 0;
     </div>
 
 </div>
-<!-- End of Profil Admin Content -->
