@@ -157,18 +157,10 @@ body {
     font-size: 12px;
 }
 
-.btn-primary {
-    background: #0d63d4;
-    color: #fff;
-}
-
-.btn-primary:hover {
-    background: #0b54b3;
-}
-
 .btn-outline {
-    background: transparent;
-    border: 1px solid #d1d5db;
+    background: #ffffff;
+    color: #ff5722;
+    border-color: #ff5722;
 }
 
 .flight-info {
@@ -363,4 +355,5 @@ body {
         padding: 0 12px;
     }
 }
+
 
