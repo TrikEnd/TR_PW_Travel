@@ -1,4 +1,4 @@
-<?php  
+<?php   
 session_start();
 require 'koneksi.php';
 
@@ -32,7 +32,7 @@ while ($row = mysqli_fetch_assoc($ps)) {
     $passengers[] = $row;
 }
 
-//  "BAYAR SEKARANG"
+//  HANDLE "BAYAR SEKARANG"
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $metode = $_POST['metode'] ?? 'VA';
     $metode = mysqli_real_escape_string($conn, $metode);
@@ -105,6 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Langkah 2 / 2 · Pembayaran
     </div>
 </div>
+
 <div class="container">
 
     <!-- PANEL KIRI -->
@@ -168,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="qris-box">
                     <img src="asset/qr2.png" alt="QRIS Code" class="qris-image">
                     <div class="qris-note">
-                    buka e-wallet yang kamu gunakan.
+                        Buka e-wallet yang kamu gunakan dan scan kode ini.
                     </div>
                 </div>
             </div>
@@ -212,7 +213,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="card">
                 <div class="action-row">
                     <button type="button" class="btn btn-outline" onclick="history.back()">Kembali</button>
-                    <button type="submit" class="btn btn-primary">Bayar Sekarang</button>
+                    <button type="submit" class="btn btn-primary btn-bayar">Bayar Sekarang</button>
                 </div>
             </div>
 
