@@ -94,3 +94,12 @@
     background: #002a2f;
 }
 
+.btn-logout {
+    background: #c62828;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+}

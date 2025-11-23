@@ -76,7 +76,7 @@
             <a href="profil_user.php" class="btn profile">
                 Halo, <b><?php echo $_SESSION['username']; ?></b>
             </a>
-            <a href="logout.php" class="btn logout">Keluar</a>
+            <a href="logout.php" class="btn-logout" onclick="return confirm('Yakin ingin logout?');">Keluar</a>
         </div>
 
     </div>

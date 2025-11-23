@@ -224,8 +224,8 @@
     color: #777;
 }
 
-.card-right button {
-    margin-top: 30px;
+.card-right .booking {
+    margin-top: 80px;
     padding: 10px 20px;
     background: #ff5722;
     color: white;
@@ -234,9 +234,10 @@
     font-size: 14px;
     cursor: pointer;
     transition: 0.2s;
+    text-decoration: none;
 }
 
-.card-right button:hover {
+.card-right .booking:hover {
     background: #d94c1d;
 }
 

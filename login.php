@@ -26,7 +26,7 @@
             if (password_verify($password, $user['password'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
-                $redirect = isset($_SESSION['return_to']) ? $_SESSION['return_to'] : 'index.php';
+                $redirect = isset($_SESSION['return_to']) ? $_SESSION['return_to'] : 'Home.php';
             unset($_SESSION['return_to']);
 
             echo "<script>window.location.href = '$redirect';</script>";
