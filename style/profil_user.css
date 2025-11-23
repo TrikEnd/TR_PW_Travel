@@ -55,16 +55,21 @@ label {
     font-weight: 600;
 }
 
-input {
+input,
+select,
+textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #dce4f3;
     border-radius: 5px;
     font-size: 14px;
     transition: 0.2s;
+    font-family: Arial, sans-serif;
 }
 
-input:focus {
+input:focus,
+select:focus,
+textarea:focus {
     outline: none;
     border-color: #4a7bff;
 }
@@ -72,6 +77,11 @@ input:focus {
 input:disabled {
     background: #eef2f8;
     border-color: #dce4f3;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
 }
 
 button {

@@ -1,0 +1,368 @@
+/* Reset hanya untuk container profil admin */
+.container {
+    max-width: 1000px;
+    margin: 80px auto 40px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.container * {
+    box-sizing: border-box;
+}
+
+body {
+    background: #eef2f8;
+}
+
+/* ====================================
+   HEADER
+   ==================================== */
+
+.admin-header {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.admin-header h1 {
+    color: #1f2f56;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.container .subtitle,
+.admin-header .subtitle {
+    color: #7a8599;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Form Container */
+.card form {
+    margin-top: 20px;
+}
+
+/* Section Spacing */
+.card > * + * {
+    margin-top: 0;
+}
+
+/* ====================================
+   ALERT MESSAGES
+   ==================================== */
+
+.alert {
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border-left: 4px solid #28a745;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+/* ====================================
+   STATISTICS GRID
+   ==================================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.stat-icon {
+    font-size: 40px;
+    background: #0046ff;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+.stat-info h3 {
+    font-size: 24px;
+    color: #1f2f56;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.stat-info p {
+    color: #7a8599;
+    font-size: 14px;
+}
+
+/* ====================================
+   CARD
+   ==================================== */
+
+.card {
+    background: white;
+    padding: 40px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container h1,
+.card h1 {
+    color: #1f2f56;
+    margin-bottom: 10px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.container h2,
+.card h2 {
+    color: #1f2f56;
+    margin-bottom: 30px;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eef2f8;
+}
+
+/* ====================================
+   PROFILE PHOTO
+   ==================================== */
+
+.profile-photo-container {
+    text-align: center;
+    margin: 30px auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #0046ff;
+    box-shadow: 0 8px 24px rgba(0, 70, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.profile-photo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 32px rgba(0, 70, 255, 0.3);
+}
+
+.admin-badge {
+    position: absolute;
+    bottom: 5px;
+    right: calc(50% - 75px + 10px);
+    background: #0046ff;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0, 70, 255, 0.4);
+}
+
+/* ====================================
+   FORM ELEMENTS
+   ==================================== */
+
+.container .form-group,
+.card .form-group {
+    margin-bottom: 25px;
+}
+
+.container label,
+.card label {
+    display: block;
+    margin-bottom: 8px;
+    color: #1f2f56;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.container input[type="text"],
+.container input[type="email"],
+.container input[type="password"],
+.card input[type="text"],
+.card input[type="email"],
+.card input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #dce4f3;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.container input[type="text"]:focus,
+.container input[type="email"]:focus,
+.container input[type="password"]:focus,
+.card input[type="text"]:focus,
+.card input[type="email"]:focus,
+.card input[type="password"]:focus {
+    outline: none;
+    border-color: #0046ff;
+    box-shadow: 0 0 0 3px rgba(0, 70, 255, 0.1);
+}
+
+.container input:disabled,
+.card input:disabled {
+    background: #f5f7fa;
+    border-color: #dce4f3;
+    color: #7a8599;
+    cursor: not-allowed;
+}
+
+.container .file-input,
+.card .file-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px dashed #dce4f3;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.container .file-input:hover,
+.card .file-input:hover {
+    border-color: #0046ff;
+    background: #f8f9ff;
+}
+
+.container .file-hint,
+.card .file-hint {
+    font-size: 12px;
+    color: #7a8599;
+    margin-top: 8px;
+    text-align: center;
+    font-style: italic;
+}
+
+/* ====================================
+   BUTTONS
+   ==================================== */
+
+.container .btn,
+.container button,
+.card button {
+    background: #0046ff;
+    color: white;
+    padding: 14px 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    width: 100%;
+    display: block;
+}
+
+.container .btn:hover,
+.container button:hover,
+.card button:hover {
+    background: #0026ff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 70, 255, 0.3);
+}
+
+.container .btn:active,
+.container button:active,
+.card button:active {
+    transform: translateY(0);
+}
+
+.container .btn-primary,
+.card .btn-primary {
+    background: #0046ff;
+    color: white;
+}
+
+.container .btn-primary:hover,
+.card .btn-primary:hover {
+    background: #0026ff;
+}
+
+/* ====================================
+   TABLE - Removed (not used in profil_admin anymore)
+   ==================================== */
+
+/* Booking table styles moved to admin_dashboard.css */
+
+/* ====================================
+   RESPONSIVE
+   ==================================== */
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin-top: 70px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .admin-header h1 {
+        font-size: 24px;
+    }
+    
+    .card {
+        padding: 25px 20px;
+        max-width: 100%;
+    }
+    
+    .profile-photo {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .container .btn,
+    .container button,
+    .card button {
+        padding: 12px 30px;
+        font-size: 14px;
+    }
+}
