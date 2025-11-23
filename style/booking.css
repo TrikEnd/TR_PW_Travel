@@ -1,0 +1,374 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background-color: #f4f7fb;
+    color: #1f2933;
+}
+
+/* HEADER */
+.header {
+    background-color: #0d63d4;
+    color: #fff;
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.step-info {
+    font-size: 14px;
+    opacity: .9;
+}
+
+/* LAYOUT */
+.container {
+    max-width: 1100px;
+    margin: 24px auto 32px auto;
+    display: flex;
+    gap: 20px;
+}
+
+.main-panel { flex: 3; }
+.side-panel { flex: 2; }
+
+/* CARD */
+.card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.card-subtitle {
+    color: #6b7280;
+    font-size: 13px;
+    margin-bottom: 14px;
+}
+
+.badge {
+    font-size: 11px;
+    background: #e5f0ff;
+    color: #0d63d4;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 6px;
+}
+
+/* FORM */
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group-small {
+    max-width: 140px;
+}
+
+.form-group label {
+    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 13px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #0d63d4;
+    box-shadow: 0 0 0 2px rgba(13,99,212,0.18);
+}
+
+.required {
+    color: #e11d48;
+    margin-left: 2px;
+}
+
+.hint-text {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 2px;
+}
+
+/* DOB */
+.dob-row {
+    display: flex;
+    gap: 8px;
+}
+
+.dob-input {
+    width: 60px;
+    padding: 8px 6px;
+    text-align: center;
+}
+
+.dob-month { width: 70px; }
+.dob-year  { width: 80px; }
+
+/* BUTTON */
+.action-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn {
+    border: none;
+    padding: 10px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-small {
+    padding: 6px 14px;
+    font-size: 12px;
+}
+
+.btn-primary {
+    background: #0d63d4;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #0b54b3;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid #d1d5db;
+}
+
+/* RIGHT PANEL */
+.flight-info {
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.flight-airline {
+    font-weight: 600;
+}
+
+.flight-route {
+    margin-top: 2px;
+}
+
+.mt-2 { margin-top: 8px; }
+
+/* PRICE CARD */
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.price-row.total {
+    font-weight: 600;
+    margin-top: 10px;
+    border-top: 1px dashed #e5e7eb;
+    padding-top: 10px;
+}
+
+/* SEAT ROW */
+.seat-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+#seat_input_1 {
+    flex: 1;
+    background-color: #f9fafb;
+}
+
+/* MODAL KURSI */
+.seat-modal-backdrop {
+    display: none;          /* default hidden */
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.seat-modal-backdrop.show {
+    display: flex;
+}
+
+.seat-modal {
+    background: #fff;
+    border-radius: 12px;
+    width: 480px;
+    max-width: 95%;
+    box-shadow: 0 8px 24px rgba(15,23,42,0.25);
+    display: flex;
+    flex-direction: column;
+}
+
+.seat-modal-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.seat-modal-close {
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.seat-modal-body {
+    padding: 14px 16px 6px 16px;
+}
+
+.seat-legend {
+    font-size: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.seat-box {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid #d1d5db;
+    margin-right: 4px;
+}
+
+.seat-available {
+    background: #f9fafb;
+}
+
+.seat-window {
+    background: #fee2e2;
+    border-color: #f97373;
+}
+
+.seat-selected {
+    background: #0d63d4;
+    border-color: #0d63d4;
+}
+
+/* GRID KURSI */
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.seat-item {
+    font-size: 11px;
+    padding: 6px 4px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    text-align: center;
+    cursor: pointer;
+    background: #f9fafb;
+    user-select: none;
+}
+
+.seat-item.disabled {
+    background: #fee2e2;
+    color: #b91c1c;
+    border-color: #fecaca;
+    cursor: not-allowed;
+}
+
+.seat-item.selected {
+    background: #0d63d4;
+    color: #fff;
+    border-color: #0d63d4;
+}
+
+.seat-modal-footer {
+    padding: 10px 16px 12px 16px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* ===== HEADER FIX ===== */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;       /* KECILKAN padding-nya */
+    background: #ffffff;      /* biru header */
+    color: black;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* Biar gambar logo nggak gede */
+.header-logo {
+    height: 55px;             /* ukuran logo yang pas */
+    width: auto;
+}
+
+/* Biar teks step-info rata kanan rapi */
+.step-info {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* hapus efek dorong ke bawah */
+.navbar-space {
+    height: 0 !important;
+}
+
+.header-logo-box {
+    width: 200px;
+    height: 50px;
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+        padding: 0 12px;
+    }
+}

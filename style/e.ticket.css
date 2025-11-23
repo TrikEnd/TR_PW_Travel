@@ -1,0 +1,321 @@
+/* =========================
+   BOARDING PASS STYLE
+   ========================= */
+
+.ticket-card {
+    background: transparent;
+    box-shadow: none;
+}
+
+.ticket-body {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+    display: flex;
+    overflow: hidden;
+    position: relative;
+}
+
+/* efek robekan kiri kanan */
+.ticket-body::before,
+.ticket-body::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    background: #f4f7fb;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.ticket-body::before {
+    left: -8px;
+}
+
+.ticket-body::after {
+    right: -8px;
+}
+
+/* BAGIAN KIRI (main) */
+.ticket-main {
+    flex: 3;
+    padding: 18px 20px;
+    border-right: 1px dashed #e5e7eb;
+}
+
+.ticket-main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.ticket-airline {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.ticket-route-name {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+.ticket-code-block {
+    text-align: right;
+}
+
+.ticket-code-label {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+.ticket-code-value {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.ticket-status {
+    margin-top: 4px;
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.ticket-status.paid {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.ticket-status.unpaid {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+/* route besar */
+.ticket-route-big {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 14px;
+    margin-bottom: 10px;
+    gap: 12px;
+}
+
+.airport-code {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.route-arrow {
+    font-size: 22px;
+}
+
+/* waktu */
+.ticket-time-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.time-label {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+.time-value {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.time-sub {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+/* garis putus-putus */
+.ticket-divider {
+    border-bottom: 1px dashed #e5e7eb;
+    margin: 10px 0;
+}
+
+/* dua kolom (passenger & contact) */
+.ticket-two-col {
+    display: flex;
+    gap: 16px;
+    margin-top: 4px;
+    margin-bottom: 6px;
+}
+
+.ticket-section-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    margin-top: 8px;
+}
+
+.ticket-row {
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.pass-name {
+    font-weight: 500;
+}
+
+.pass-seat,
+.pass-nat {
+    color: #6b7280;
+    font-size: 11px;
+}
+
+/* BAGIAN KANAN: STUB */
+.ticket-stub {
+    flex: 1.1;
+    padding: 16px 16px 18px;
+    background: #f9fafb;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.stub-airline {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.stub-route {
+    font-size: 12px;
+    margin-top: 2px;
+    color: #4b5563;
+}
+
+.stub-arrow {
+    margin: 0 4px;
+}
+
+.stub-code {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 8px;
+}
+
+.stub-date,
+.stub-seat {
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+.stub-seat {
+    margin-bottom: 10px; /* jarak aman sebelum QR */
+}
+
+/* QR / barcode */
+.stub-qr {
+    width: 100%;
+    text-align: center;
+    margin-top: 4px;
+    margin-bottom: 6px;
+}
+
+.stub-qr-inner {
+    width: 90px;
+    height: 90px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    margin: 0 auto 4px auto;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+}
+
+.qris-image-ticket {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+}
+
+.stub-qr-text {
+    font-size: 9px;
+    color: #6b7280;
+}
+
+/* barcode kecil di bawah QR */
+.stub-barcode {
+    margin-top: 4px;
+    display: flex;
+    gap: 3px;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+}
+
+.barcode-line {
+    width: 3px;
+    height: 18px;
+    background: #111827;
+}
+
+.barcode-line.short {
+    height: 13px;
+}
+
+.barcode-line.tiny {
+    height: 8px;
+}
+
+/* tombol bawah */
+.ticket-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Header Logo Fix */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 25px;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo {
+    height: 38px;
+    width: auto;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .ticket-body {
+        flex-direction: column;
+    }
+    .ticket-main {
+        border-right: none;
+        border-bottom: 1px dashed #e5e7eb;
+    }
+    .ticket-stub {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .stub-qr {
+        width: auto;
+        margin-left: auto;
+    }
+}
