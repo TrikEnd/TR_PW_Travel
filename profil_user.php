@@ -13,7 +13,7 @@ $message = '';
 $error = '';
 
 // Ambil data user dari database
-$stmt = $conn->prepare("SELECT username, email, no_telepon, password FROM tb_user WHERE id = ?");
+$stmt = $conn->prepare("SELECT username, email, no_telepon, password, disabilitas FROM tb_user WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -31,16 +31,17 @@ if (isset($_POST['update_profile'])) {
     $nama = $_POST['nama'];
     $email = $_POST['email'];
     $no_telepon = $_POST['no_telepon'];
+    $disabilitas = $_POST['disabilitas'] ?? 'Tidak';
     
-    $stmt = $conn->prepare("UPDATE tb_user SET username = ?, email = ?, no_telepon = ? WHERE id = ?");
-    $stmt->bind_param("sssi", $nama, $email, $no_telepon, $user_id);
+    $stmt = $conn->prepare("UPDATE tb_user SET username = ?, email = ?, no_telepon = ?, disabilitas = ? WHERE id = ?");
+    $stmt->bind_param("ssssi", $nama, $email, $no_telepon, $disabilitas, $user_id);
     
     if ($stmt->execute()) {
         $message = "Profil berhasil diperbarui!";
         // Update session
         $_SESSION['username'] = $nama;
         // Refresh data user
-        $stmt = $conn->prepare("SELECT username, email, no_telepon, password FROM tb_user WHERE id = ?");
+        $stmt = $conn->prepare("SELECT username, email, no_telepon, password, disabilitas FROM tb_user WHERE id = ?");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -156,15 +157,18 @@ $bookings = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil User - Travel Ticket</title>
 
-    <!-- Panggil navbar -->
-    <link rel="stylesheet" href="component/navbar.css">
     <link rel="stylesheet" href="style/profil_user.css">
 </head>
 <body>
 
-<?php include 'component/navbar.php'; ?>
-
 <div class="container">
+
+    <!-- Back Button -->
+    <div style="margin-bottom: 20px;">
+        <a href="Home.php" style="display: inline-block; padding: 10px 20px; background: #0046ff; color: white; text-decoration: none; border-radius: 8px; font-size: 14px; transition: 0.3s;">
+            ← Kembali ke Beranda
+        </a>
+    </div>
 
     <!-- PROFIL -->
     <div class="card">
@@ -222,6 +226,17 @@ $bookings = $stmt->get_result();
             <div class="form-group">
                 <label>No. Telepon</label>
                 <input type="text" name="no_telepon" value="<?php echo htmlspecialchars($user['no_telepon'] ?? ''); ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label>Kebutuhan Khusus / Disabilitas</label>
+                <select name="disabilitas">
+                    <option value="Tidak" <?php echo ($user['disabilitas'] ?? 'Tidak') == 'Tidak' ? 'selected' : ''; ?>>Tidak Ada</option>
+                    <option value="Kursi Roda" <?php echo ($user['disabilitas'] ?? '') == 'Kursi Roda' ? 'selected' : ''; ?>>Kursi Roda</option>
+                    <option value="Tuna Netra" <?php echo ($user['disabilitas'] ?? '') == 'Tuna Netra' ? 'selected' : ''; ?>>Tuna Netra</option>
+                    <option value="Tuna Rungu" <?php echo ($user['disabilitas'] ?? '') == 'Tuna Rungu' ? 'selected' : ''; ?>>Tuna Rungu</option>
+                    <option value="Lainnya" <?php echo ($user['disabilitas'] ?? '') == 'Lainnya' ? 'selected' : ''; ?>>Lainnya</option>
+                </select>
             </div>
 
             <button type="submit" name="update_profile">Simpan Perubahan</button>
