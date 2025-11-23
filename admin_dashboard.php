@@ -2,7 +2,6 @@
 session_start();
 require 'koneksi.php';
 
-// Redirect jika belum login atau bukan admin
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
@@ -26,23 +25,19 @@ if (isset($_GET['msg'])) {
     }
 }
 
-// Ambil data admin dari database
 $stmt = $conn->prepare("SELECT username, email, no_telepon, password, role FROM tb_user WHERE id = ?");
 $stmt->bind_param("i", $admin_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $admin = $result->fetch_assoc();
 
-// Jika bukan admin, redirect
 if (!$admin || $admin['role'] != 'admin') {
     header('Location: Home.php');
     exit();
 }
 
-// Get active page
 $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 
-// Handle Approve/Reject Booking
 if (isset($_POST['approve_booking'])) {
     $booking_id = $_POST['booking_id'];
     $stmt = $conn->prepare("UPDATE tb_booking SET status_booking = 'Approved' WHERE id = ?");
@@ -61,7 +56,6 @@ if (isset($_POST['reject_booking'])) {
     }
 }
 
-// Handle Confirm Seat
 if (isset($_POST['confirm_seat'])) {
     $penumpang_id = $_POST['penumpang_id'];
     $stmt = $conn->prepare("UPDATE tb_penumpang SET seat_status = 'Confirmed' WHERE id = ?");
@@ -71,7 +65,6 @@ if (isset($_POST['confirm_seat'])) {
     }
 }
 
-// Handle CRUD Tiket
 if (isset($_POST['create_tiket'])) {
     $jenis = $_POST['jenis'];
     $nama_maskapai = $_POST['nama_maskapai'];
@@ -135,7 +128,6 @@ if (isset($_POST['delete_tiket'])) {
     }
 }
 
-// Get tiket untuk edit
 $edit_tiket = null;
 if (isset($_GET['edit_tiket'])) {
     $tiket_id = $_GET['edit_tiket'];
@@ -146,7 +138,6 @@ if (isset($_GET['edit_tiket'])) {
     $edit_tiket = $result->fetch_assoc();
 }
 
-// Statistik untuk dashboard
 $stmt = $conn->query("SELECT COUNT(*) as total FROM tb_user WHERE role='user'");
 $total_users = $stmt->fetch_assoc()['total'];
 
@@ -159,11 +150,9 @@ $pending_bookings = $stmt->fetch_assoc()['total'];
 $stmt = $conn->query("SELECT SUM(total_harga) as total FROM tb_booking WHERE status_pembayaran='Sudah Bayar'");
 $total_revenue = $stmt->fetch_assoc()['total'] ?? 0;
 
-// User dengan disabilitas
 $stmt = $conn->query("SELECT * FROM tb_user WHERE disabilitas != 'Tidak' AND role='user' ORDER BY id DESC");
 $users_disabilitas = $stmt;
 
-// Booking Pending Approval
 $stmt = $conn->query("SELECT b.*, u.username, t.nama_maskapai, t.dari, t.ke, t.jenis 
                       FROM tb_booking b 
                       JOIN tb_user u ON b.user_id = u.id 
@@ -172,25 +161,21 @@ $stmt = $conn->query("SELECT b.*, u.username, t.nama_maskapai, t.dari, t.ke, t.j
                       ORDER BY b.tanggal_booking DESC LIMIT 20");
 $pending_approval = $stmt;
 
-// Filter untuk Seat Monitoring
 $filter_jenis = isset($_GET['filter_jenis']) ? $_GET['filter_jenis'] : '';
 $filter_maskapai = isset($_GET['filter_maskapai']) ? $_GET['filter_maskapai'] : '';
 
-// Jika jenis berubah, reset maskapai (cek via session atau parameter)
 $jenis_changed = isset($_GET['filter_jenis']) && isset($_SESSION['last_filter_jenis']) && $_GET['filter_jenis'] != $_SESSION['last_filter_jenis'];
 if ($jenis_changed) {
     $filter_maskapai = '';
 }
 $_SESSION['last_filter_jenis'] = $filter_jenis;
 
-// Dapatkan daftar jenis transportasi
 $jenis_list = $conn->query("SELECT DISTINCT jenis FROM tb_tiket ORDER BY jenis");
 $jenis_options = [];
 while ($row = $jenis_list->fetch_assoc()) {
     $jenis_options[] = $row['jenis'];
 }
 
-// Dapatkan daftar nama maskapai berdasarkan jenis yang dipilih
 $maskapai_list = [];
 if ($filter_jenis) {
     $stmt = $conn->prepare("SELECT DISTINCT nama_maskapai FROM tb_tiket WHERE jenis = ? ORDER BY nama_maskapai");
@@ -207,7 +192,6 @@ if ($filter_jenis) {
     }
 }
 
-// Seat Management - Query dengan filter
 $seat_query = "SELECT p.*, b.kode_booking, b.status_booking, u.username, t.nama_maskapai, t.dari, t.ke, t.jenis
                FROM tb_penumpang p
                JOIN tb_booking b ON p.booking_id = b.id
@@ -226,8 +210,6 @@ if ($filter_maskapai) {
 $seat_query .= " ORDER BY p.seat_status, p.id DESC";
 $seat_data = $conn->query($seat_query);
 
-// Fungsi getFotoProfilPath ada di profil_admin.php
-// Untuk sidebar, kita cek foto profil secara manual
 $foto_profil = 'asset/defaultphotoprofile.png';
 $extensions = ['jpg', 'jpeg', 'png', 'gif'];
 foreach ($extensions as $ext) {
@@ -252,7 +234,6 @@ foreach ($extensions as $ext) {
 
 <?php include 'component/navbar.php'; ?>
 
-<!-- Sidebar -->
 <div class="sidebar">
     <div class="sidebar-header">
         <img src="asset/logo.png" alt="Logo" class="sidebar-logo">
@@ -290,7 +271,6 @@ foreach ($extensions as $ext) {
     </nav>
 </div>
 
-<!-- Main Content -->
 <div class="main-content">
     <div class="topbar">
         <h1>
@@ -324,7 +304,6 @@ foreach ($extensions as $ext) {
         </div>
     </div>
 
-    <!-- Alert Messages -->
     <?php if ($message): ?>
         <div class="alert alert-success">✓ <?php echo htmlspecialchars($message); ?></div>
     <?php endif; ?>
@@ -333,11 +312,9 @@ foreach ($extensions as $ext) {
         <div class="alert alert-error">✗ <?php echo htmlspecialchars($error); ?></div>
     <?php endif; ?>
 
-    <!-- Content Area -->
     <div class="content-area">
         
         <?php if ($page == 'dashboard'): ?>
-            <!-- DASHBOARD PAGE -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon stat-icon-users">
@@ -380,7 +357,6 @@ foreach ($extensions as $ext) {
                 </div>
             </div>
 
-            <!-- Recent Bookings -->
             <div class="card card-wide">
                 <h2><img src="asset/booking.svg" alt="Booking" class="card-title-icon"> Booking Terbaru (Perlu Approval)</h2>
                 <div class="table-container">
@@ -440,7 +416,6 @@ foreach ($extensions as $ext) {
             </div>
 
         <?php elseif ($page == 'bookings'): ?>
-            <!-- BOOKINGS MANAGEMENT PAGE -->
             <div class="card card-wide">
                 <h2><img src="asset/booking.svg" alt="Booking" class="card-title-icon"> Kelola Semua Booking</h2>
                 <div class="table-container">
@@ -678,7 +653,6 @@ foreach ($extensions as $ext) {
             </div>
 
         <?php elseif ($page == 'seats'): ?>
-            <!-- SEAT MONITORING PAGE -->
             <div class="card card-wide">
                 <h2><img src="asset/seat.svg" alt="Seat" class="card-title-icon"> Monitoring Kursi</h2>
                 <p class="card-description">
@@ -814,7 +788,6 @@ foreach ($extensions as $ext) {
             </div>
 
         <?php elseif ($page == 'disability'): ?>
-            <!-- USER DISABILITAS PAGE -->
             <div class="card">
                 <h2><img src="asset/disabilitas.svg" alt="Disability" class="card-title-icon"> User dengan Disabilitas</h2>
                 <p class="card-description">
@@ -858,8 +831,7 @@ foreach ($extensions as $ext) {
             </div>
 
         <?php elseif ($page == 'profile'): ?>
-            <!-- ADMIN PROFILE PAGE -->
-            <?php include 'profil_admin.php'; // Include profil admin yang sudah ada ?>
+            <?php include 'profil_admin.php'; ?>
 
         <?php endif; ?>
 
