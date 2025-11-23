@@ -1,4 +1,4 @@
-<?php
+<?php 
 include 'koneksi.php';
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -33,6 +33,7 @@ $result = $conn->query($query);
     <link rel="stylesheet" href="style/tiket.css">
 </head>
 <body>
+
 <?php include 'login.php'; ?>
 
 <div class="container">
@@ -41,9 +42,21 @@ $result = $conn->query($query);
     <div class="filter-container">
         <div class="left-filter">
             <span class="filter-title">Pilih Jenis Tiket:</span>
-            <div class="filter-item-tiket"><a href="?jenis=Bus"><button class="filter-tiket-btn <?= $jenis=='Bus'?'active-filter':'' ?>">Bus</button></a></div>
-            <div class="filter-item-tiket"><a href="?jenis=Pesawat"><button class="filter-tiket-btn <?= $jenis=='Pesawat'?'active-filter':'' ?>">Pesawat</button></a></div>
-            <div class="filter-item-tiket"><a href="?jenis=Kereta"><button class="filter-tiket-btn <?= $jenis=='Kereta'?'active-filter':'' ?>">Kereta</button></a></div>
+            <div class="filter-item-tiket">
+                <a href="?jenis=Bus">
+                    <button class="filter-tiket-btn <?= $jenis=='Bus' ? 'active-filter' : '' ?>">Bus</button>
+                </a>
+            </div>
+            <div class="filter-item-tiket">
+                <a href="?jenis=Pesawat">
+                    <button class="filter-tiket-btn <?= $jenis=='Pesawat' ? 'active-filter' : '' ?>">Pesawat</button>
+                </a>
+            </div>
+            <div class="filter-item-tiket">
+                <a href="?jenis=Kereta">
+                    <button class="filter-tiket-btn <?= $jenis=='Kereta' ? 'active-filter' : '' ?>">Kereta</button>
+                </a>
+            </div>
         </div>
 
         <div class="right-filter">
@@ -51,10 +64,6 @@ $result = $conn->query($query);
                 <div class="drop-down-btn" id="sortBtn">
                     URUTKAN: 
                     <?php
-                        // Tampilkan label sorting saat ini
-                        // if ($sort == 'Januari') echo 'Januari';
-                        // elseif ($sort == 'Februari') echo 'Februari';
-                        // elseif ($sort == 'Maret') echo 'Maret';
                         if ($sort == 'harga_tertinggi') echo 'Harga Tertinggi';
                         elseif ($sort == 'harga_terendah') echo 'Harga Terendah';
                         else echo '✓';
@@ -73,45 +82,54 @@ $result = $conn->query($query);
             <div class="ticket-card">
                 <div class="card-left">
                     <div class="pesawat">
-                        <p><?= $row['nama_maskapai'] ?></p>
+                        <p><?= htmlspecialchars($row['nama_maskapai']); ?></p>
                     </div>
-                    <h3><?= $row['nama_rute'] ?></h3>
-                    <p class="kelas"><?= $row['kelas'] ?></p>
-
-                    <!-- <div class="sub-info"> -->
-                        <!-- <a href="#">Detail Perjalanan</a>
-                        <a href="#">Info</a> -->
-                    <!-- </div> -->
+                    <h3><?= htmlspecialchars($row['nama_rute']); ?></h3>
+                    <p class="kelas"><?= htmlspecialchars($row['kelas']); ?></p>
                 </div>
 
                 <div class="card-middle">
                     <div>
-                        <h4><?= $row['berangkat_jam'] ?></h4>
-                        <p><?= $row['dari'] ?></p>
+                        <h4><?= htmlspecialchars($row['berangkat_jam']); ?></h4>
+                        <p><?= htmlspecialchars($row['dari']); ?></p>
                     </div>
 
-                    <div class="duration"><?= $row['durasi'] ?><br>Langsung</div>
+                    <div class="duration">
+                        <?= htmlspecialchars($row['durasi']); ?><br>Langsung
+                    </div>
 
                     <div>
-                        <h4><?= $row['tiba_jam'] ?></h4>
-                        <p><?= $row['ke'] ?></p>
+                        <h4><?= htmlspecialchars($row['tiba_jam']); ?></h4>
+                        <p><?= htmlspecialchars($row['ke']); ?></p>
                     </div>
                 </div>
 
                 <div class="card-right">
-                    <div class="price">Rp <?= number_format($row['harga'],0,',','.') ?> <span>/org</span></div>
-                    <br>
-                    <br>
-                    <a class="booking" href="booking.php?tiket_id=<?= $row['id'] ?>" style="">Pilih</a>
+                    <div class="price">
+                        Rp <?= number_format($row['harga'], 0, ',', '.'); ?> <span>/org</span>
+                    </div>
+
+                    <?php if (!isset($_SESSION['user_id'])): ?>
+                        <!-- BELUM LOGIN: TAMPILKAN ALERT SAAT KLIK -->
+                        <button type="button" class="btn-pilih"
+                                onclick="alert('Silakan login terlebih dahulu untuk memesan tiket.');">
+                            Pilih
+                        </button>
+                    <?php else: ?>
+                        <!-- SUDAH LOGIN: BOLEH LANJUT KE BOOKING -->
+                        <a href="booking.php?tiket_id=<?= $row['id']; ?>" class="btn-pilih">
+                            Pilih
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         <?php endwhile; ?>
     </div>
+
     <footer>
-        <?php include'component/footer.php';?>
+        <?php include 'component/footer.php'; ?>
     </footer>
 </div>
-
 
 <script>
 // Dropdown
@@ -127,7 +145,6 @@ document.addEventListener("click", function(e){
         sortMenu.classList.remove("show-dropdown");
     }
 });
-
 </script>
 
 </body>
