@@ -21,7 +21,7 @@ if ($sort == 'Januari' || $sort == 'Februari' || $sort == 'Maret') {
     $query .= " ORDER BY harga ASC";
 }
 
-$result = $conn->query($query);
+$result_tiket = $conn->query($query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,10 +31,12 @@ $result = $conn->query($query);
     <title>Daftar Tiket</title>
     <link rel="stylesheet" href="component/navbar.css">
     <link rel="stylesheet" href="style/tiket.css">
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="register.css">
 </head>
 <body>
 
-<?php include 'login.php'; ?>
+<?php include 'component/navbar.php'; ?>
 
 <div class="container">
     <img class="banner-tiket" src="asset/1621823158319-c40708cee7aef086cbd23b5a6e68da3c.webp" alt="">
@@ -78,7 +80,7 @@ $result = $conn->query($query);
     </div>
 
     <div class="card-list">
-        <?php while ($row = $result->fetch_assoc()) : ?>
+        <?php while ($row = $result_tiket->fetch_assoc()) : ?>
             <div class="ticket-card">
                 <div class="card-left">
                     <div class="pesawat">
@@ -110,14 +112,15 @@ $result = $conn->query($query);
                     </div>
 
                     <?php if (!isset($_SESSION['user_id'])): ?>
-                        <button type="button" class="booking"
+                        <!-- BELUM LOGIN: TAMPILKAN ALERT SAAT KLIK -->
+                        <button type="button" class="btn-pilih"
                                 onclick="alert('Silakan login terlebih dahulu untuk memesan tiket.');">
                             Pilih
                         </button>
                     <?php else: ?>
-                        <br>
-                        <br>
-                        <a href="booking.php?tiket_id=<?= $row['id']; ?>" class="booking">
+                        <!-- SUDAH LOGIN: BOLEH LANJUT KE BOOKING -->
+                         <br>
+                        <a href="booking.php?tiket_id=<?= $row['id']; ?>" class="btn-pilih">
                             Pilih
                         </a>
                     <?php endif; ?>
@@ -146,6 +149,8 @@ document.addEventListener("click", function(e){
     }
 });
 </script>
+
+<?php include 'login.php'; ?>
 
 </body>
 </html>

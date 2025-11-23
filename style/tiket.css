@@ -225,7 +225,7 @@
 }
 
 .card-right .booking {
-    margin-top: 10px;
+    margin-top: 80px;
     padding: 10px 20px;
     background: #ff5722;
     color: white;
@@ -241,6 +241,22 @@
     background: #d94c1d;
 }
 
+.card-right .btn-pilih {
+margin-top: 80px;
+    padding: 10px 20px;
+    background: #ff5722;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+.card-right .btn-pilih:hover {
+    background: #d94c1d;
+}
 /* ======================== */
 /* DROPDOWN FILTER URUTKAN  */
 /* ======================== */
