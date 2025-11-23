@@ -64,7 +64,7 @@
                 $stmt->bind_param("sss", $username, $email, $password_hash);
 
                 if ($stmt->execute()) {
-                    echo "<script>alert('Register berhasil! Silahkan login.'); window.location.href='index.php';</script>";
+                    echo "<script>alert('Register berhasil! Silahkan login.'); window.location.href='Home.php';</script>";
                 } else {
                     echo "<script>alert('Terjadi kesalahan saat register.');</script>";
                 }
