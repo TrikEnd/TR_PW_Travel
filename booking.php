@@ -16,7 +16,7 @@ if (isset($_GET['tiket_id'])) {
     $tiket_id = (int) $_GET['id'];
 } else {
     // Kalau dibuka tanpa pilih tiket, balikin ke list
-    header("Location: flight_list.php"); // GANTI kalau nama list tiketmu beda
+    header("Location: tiket.php");
     exit;
 }
 
@@ -49,12 +49,8 @@ $harga_per_tiket = (int) $tiket['harga'];
     <div class="header-left">
         <img src="asset/logo.png" class="header-logo" alt="Logo">
     </div>
-
-    <div class="step-info">
-        Langkah 1 / 2 · Data Penumpang & Kontak
-    </div>
+    <div class="step-info">Langkah 1 / 2 · Data Penumpang & Kontak</div>
 </div>
-
 
 <div class="container">
     <!-- PANEL KIRI -->
@@ -152,10 +148,19 @@ $harga_per_tiket = (int) $tiket['harga'];
                     </div>
                 </div>
 
-                <!-- Pilih Kursi -->
+                <!-- PEMILIHAN KURSI -->
                 <div class="form-row">
                     <div class="form-group">
                         <label>Pemilihan Kursi (opsional)</label>
+
+                        <!-- Checkbox Disabilitas -->
+                        <div class="seat-disability-opt" style="margin-bottom: 6px;">
+                            <label style="font-size: 13px;">
+                                <input type="checkbox" id="is_disability">
+                                Saya penumpang dengan disabilitas
+                            </label>
+                        </div>
+
                         <div class="seat-row">
                             <input type="text" id="seat_input_1" placeholder="Belum memilih kursi" readonly>
                             <button type="button" class="btn btn-outline btn-small" id="btn_choose_seat">
