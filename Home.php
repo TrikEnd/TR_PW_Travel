@@ -1,4 +1,4 @@
-  <?php
+<?php
 
   if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -133,6 +133,8 @@
     .feature {
       flex:1; padding:14px; border-radius:12px; text-align:center;
       background:#fff; box-shadow:var(--shadow);
+
+  
     }
     .feature strong { display:block; margin-bottom:6px; font-size:18px; }
 
@@ -298,16 +300,11 @@
         <div class="muted">Bantuan kapan saja</div>
       </div>
     </div>
-
+    
+    
     <footer>
-      <div>© <strong>Travelly</strong> 2025</div>
-      <div class="links">
-        <div>Privasi</div>
-        <div>Syarat</div>
-        <div>Bantuan</div>
-      </div>
+      <?php include'component/footer.php';?>
     </footer>
-
   </div>
   </body>
   </html>

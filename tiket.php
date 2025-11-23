@@ -106,7 +106,11 @@ $result = $conn->query($query);
             </div>
         <?php endwhile; ?>
     </div>
+    <footer>
+        <?php include'component/footer.php';?>
+    </footer>
 </div>
+
 
 <script>
 // Dropdown
