@@ -110,14 +110,14 @@ $result = $conn->query($query);
                     </div>
 
                     <?php if (!isset($_SESSION['user_id'])): ?>
-                        <!-- BELUM LOGIN: TAMPILKAN ALERT SAAT KLIK -->
-                        <button type="button" class="btn-pilih"
+                        <button type="button" class="booking"
                                 onclick="alert('Silakan login terlebih dahulu untuk memesan tiket.');">
                             Pilih
                         </button>
                     <?php else: ?>
-                        <!-- SUDAH LOGIN: BOLEH LANJUT KE BOOKING -->
-                        <a href="booking.php?tiket_id=<?= $row['id']; ?>" class="btn-pilih">
+                        <br>
+                        <br>
+                        <a href="booking.php?tiket_id=<?= $row['id']; ?>" class="booking">
                             Pilih
                         </a>
                     <?php endif; ?>
