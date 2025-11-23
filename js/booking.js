@@ -1,112 +1,155 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("form-booking");
 
-    // ====== SEAT POPUP LOGIC ======
-    const seatBackdrop = document.getElementById("seatModalBackdrop");
-    const btnChooseSeat = document.getElementById("btn_choose_seat");
-    const btnClose = document.getElementById("seatModalClose");
-    const btnCancel = document.getElementById("seatModalCancel");
-    const btnApply = document.getElementById("seatModalApply");
-    const seatGrid = document.getElementById("seatGrid");
-    const seatInput = document.getElementById("seat_input_1");
-    const seatHidden = document.getElementById("no_kursi_1");
+document.addEventListener('DOMContentLoaded', function () {
+    const btnChooseSeat   = document.getElementById('btn_choose_seat');
+    const seatModal       = document.getElementById('seatModalBackdrop');
+    const seatModalClose  = document.getElementById('seatModalClose');
+    const seatModalCancel = document.getElementById('seatModalCancel');
+    const seatModalApply  = document.getElementById('seatModalApply');
+    const seatGrid        = document.getElementById('seatGrid');
+    const seatInput       = document.getElementById('seat_input_1');
+    const hiddenSeatInput = document.getElementById('no_kursi_1');
+    const isDisabilityChk = document.getElementById('is_disability');
 
-    let tempSelectedSeat = null; // seat terpilih di popup (belum di-apply)
+    if (!btnChooseSeat || !seatModal || !seatGrid) {
+        // kalau elemen tidak ada (halaman lain), stop
+        return;
+    }
 
-    // Generate kursi: 10 baris, kolom A–D
-    const rows = 10;
-    const cols = ["A", "B", "C", "D"]; // A & D = window (disability)
-    for (let r = 1; r <= rows; r++) {
-        for (let c = 0; c < cols.length; c++) {
-            const code = `${r}${cols[c]}`;
+    // Konfigurasi kursi
+    const rows = 6;                      // 6 baris: 1 - 6
+    const cols = 6;                      // 6 kolom: A - F
+    const colLetters = ['A','B','C','D','E','F'];
 
-            const item = document.createElement("div");
-            item.classList.add("seat-item");
-            item.dataset.code = code;
+    let selectedSeatCode = null;
+    let isDisabilityMode = false;
 
-            // window seat = disability only (A dan D)
-            if (cols[c] === "A" || cols[c] === "D") {
-                item.classList.add("disabled", "seat-window");
-                item.title = "Window seat – reserved for disabled passengers";
-            } else {
-                item.classList.add("seat-available");
+    // Buka modal
+    btnChooseSeat.addEventListener('click', function () {
+        seatModal.style.display = 'flex';
+        renderSeats();
+    });
+
+    // Tutup modal
+    function closeModal() {
+        seatModal.style.display = 'none';
+    }
+
+    if (seatModalClose) {
+        seatModalClose.addEventListener('click', closeModal);
+    }
+    if (seatModalCancel) {
+        seatModalCancel.addEventListener('click', closeModal);
+    }
+
+    // Checkbox disabilitas (di form utama)
+    if (isDisabilityChk) {
+        isDisabilityChk.addEventListener('change', () => {
+            isDisabilityMode = isDisabilityChk.checked;
+            // Kalau modal lagi kebuka, update kursi
+            if (seatModal.style.display === 'flex') {
+                renderSeats();
+            }
+        });
+    }
+
+    // Generate kursi
+    function renderSeats() {
+        seatGrid.innerHTML = '';
+
+        for (let r = 1; r <= rows; r++) {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'seat-row-line';
+
+            for (let c = 0; c < cols; c++) {
+                const seatCode = r + colLetters[c];  // contoh: 1A, 1B, dst
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.textContent = seatCode;
+                btn.className = 'seat-btn';
+
+                // Kursi dekat jendela: kolom A & F → kursi disabilitas
+                const isDisabilitySeat = (colLetters[c] === 'A' || colLetters[c] === 'F');
+                btn.dataset.seatCode = seatCode;
+                btn.dataset.disability = isDisabilitySeat ? '1' : '0';
+
+                if (isDisabilitySeat) {
+                    btn.classList.add('seat-window'); // beda warna
+                } else {
+                    btn.classList.add('seat-available');
+                }
+
+                // Aturan klik berdasarkan mode disabilitas
+                if (!isDisabilityMode && isDisabilitySeat) {
+                    // mode normal: kursi disabilitas tidak bisa dipilih
+                    btn.classList.add('seat-disabled');
+                }
+
+                if (selectedSeatCode === seatCode) {
+                    btn.classList.add('seat-selected');
+                }
+
+                btn.addEventListener('click', function () {
+                    handleSeatClick(btn);
+                });
+
+                rowDiv.appendChild(btn);
             }
 
-            item.textContent = code;
-            seatGrid.appendChild(item);
+            seatGrid.appendChild(rowDiv);
         }
     }
 
-    // buka modal
-    function openSeatModal() {
-        tempSelectedSeat = seatHidden.value || null;
-        // tandai seat yang sudah disimpan sebelumnya
-        document.querySelectorAll(".seat-item").forEach(el => {
-            el.classList.remove("selected");
-            if (tempSelectedSeat && el.dataset.code === tempSelectedSeat) {
-                el.classList.add("selected");
-            }
-        });
-        seatBackdrop.classList.add("show");
-    }
+    function handleSeatClick(btn) {
+        const seatCode = btn.dataset.seatCode;
+        const isDisSeat = btn.dataset.disability === '1';
 
-    // tutup modal
-    function closeSeatModal() {
-        seatBackdrop.classList.remove("show");
-    }
-
-    // klik seat
-    seatGrid.addEventListener("click", (e) => {
-        const target = e.target;
-        if (!target.classList.contains("seat-item")) return;
-        if (target.classList.contains("disabled")) {
-            alert("Window seats are reserved for passengers with disabilities.");
+        // Jika kursi disabilitas tapi mode biasa
+        if (!isDisabilityMode && isDisSeat) {
+            alert('Kursi dekat jendela ini diprioritaskan untuk penumpang dengan disabilitas.\nSilakan centang "Saya penumpang dengan disabilitas" jika sesuai.');
             return;
         }
 
-        document.querySelectorAll(".seat-item").forEach(el => el.classList.remove("selected"));
-        target.classList.add("selected");
-        tempSelectedSeat = target.dataset.code;
-    });
-
-    // apply seat ke input
-    btnApply.addEventListener("click", () => {
-        if (tempSelectedSeat) {
-            seatInput.value = tempSelectedSeat;
-            seatHidden.value = tempSelectedSeat;
+        // Kalau sudah terpilih, unselect
+        if (selectedSeatCode === seatCode) {
+            selectedSeatCode = null;
+        } else {
+            selectedSeatCode = seatCode;
         }
-        closeSeatModal();
-    });
 
-    // event open / close
-    btnChooseSeat.addEventListener("click", openSeatModal);
-    btnClose.addEventListener("click", closeSeatModal);
-    btnCancel.addEventListener("click", closeSeatModal);
+        // Refresh tampilan kursi
+        refreshSeatSelection();
+    }
 
-    // klik backdrop untuk tutup
-    seatBackdrop.addEventListener("click", (e) => {
-        if (e.target === seatBackdrop) {
-            closeSeatModal();
-        }
-    });
+    function refreshSeatSelection() {
+        const allSeats = seatGrid.querySelectorAll('.seat-btn');
+        allSeats.forEach(btn => {
+            btn.classList.remove('seat-selected');
 
-    // ====== SUBMIT: susun nama & tanggal lahir ke hidden input ======
-    form.addEventListener("submit", function () {
-        const first = document.getElementById("first_name_1").value.trim();
-        const last  = document.getElementById("last_name_1").value.trim();
-        const fullName = (first + " " + last).trim();
-        document.getElementById("nama_penumpang_1").value = fullName;
+            const isDisSeat = btn.dataset.disability === '1';
 
-        const seatVal = seatInput.value.trim();
-        seatHidden.value = seatVal;
+            // Lock kursi disabilitas jika bukan mode disabilitas
+            if (!isDisabilityMode && isDisSeat) {
+                btn.classList.add('seat-disabled');
+            } else {
+                btn.classList.remove('seat-disabled');
+            }
 
-        const dd = document.getElementById("dob_day_1").value.trim().padStart(2, "0");
-        const mm = document.getElementById("dob_month_1").value.trim().padStart(2, "0");
-        const yy = document.getElementById("dob_year_1").value.trim();
+            if (btn.dataset.seatCode === selectedSeatCode) {
+                btn.classList.add('seat-selected');
+            }
+        });
+    }
 
-        if (dd && mm && yy && yy.length === 4) {
-            document.getElementById("tanggal_lahir_1").value = `${yy}-${mm}-${dd}`;
-        }
-        // validasi umur bisa ditambah di sini kalau mau
-    });
+    // Simpan kursi terpilih ke input
+    if (seatModalApply) {
+        seatModalApply.addEventListener('click', function () {
+            if (!selectedSeatCode) {
+                alert('Silakan pilih kursi terlebih dahulu.');
+                return;
+            }
+            if (seatInput) seatInput.value       = selectedSeatCode;
+            if (hiddenSeatInput) hiddenSeatInput.value = selectedSeatCode;
+            closeModal();
+        });
+    }
 });
