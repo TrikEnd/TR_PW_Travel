@@ -1,4 +1,3 @@
-/* Reset hanya untuk container profil admin */
 .container {
     max-width: 1000px;
     margin: 80px auto 40px;
@@ -13,10 +12,6 @@
 body {
     background: #eef2f8;
 }
-
-/* ====================================
-   HEADER
-   ==================================== */
 
 .admin-header {
     background: white;
@@ -42,19 +37,13 @@ body {
     font-size: 14px;
 }
 
-/* Form Container */
 .card form {
     margin-top: 20px;
 }
 
-/* Section Spacing */
 .card > * + * {
     margin-top: 0;
 }
-
-/* ====================================
-   ALERT MESSAGES
-   ==================================== */
 
 .alert {
     padding: 15px 20px;
@@ -74,10 +63,6 @@ body {
     color: #721c24;
     border-left: 4px solid #dc3545;
 }
-
-/* ====================================
-   STATISTICS GRID
-   ==================================== */
 
 .stats-grid {
     display: grid;
@@ -125,10 +110,6 @@ body {
     font-size: 14px;
 }
 
-/* ====================================
-   CARD
-   ==================================== */
-
 .card {
     background: white;
     padding: 40px;
@@ -158,10 +139,6 @@ body {
     padding-bottom: 15px;
     border-bottom: 2px solid #eef2f8;
 }
-
-/* ====================================
-   PROFILE PHOTO
-   ==================================== */
 
 .profile-photo-container {
     text-align: center;
@@ -199,10 +176,6 @@ body {
     font-weight: 700;
     box-shadow: 0 4px 12px rgba(0, 70, 255, 0.4);
 }
-
-/* ====================================
-   FORM ELEMENTS
-   ==================================== */
 
 .container .form-group,
 .card .form-group {
@@ -279,10 +252,6 @@ body {
     font-style: italic;
 }
 
-/* ====================================
-   BUTTONS
-   ==================================== */
-
 .container .btn,
 .container button,
 .card button {
@@ -324,16 +293,6 @@ body {
 .card .btn-primary:hover {
     background: #0026ff;
 }
-
-/* ====================================
-   TABLE - Removed (not used in profil_admin anymore)
-   ==================================== */
-
-/* Booking table styles moved to admin_dashboard.css */
-
-/* ====================================
-   RESPONSIVE
-   ==================================== */
 
 @media (max-width: 768px) {
     .container {
