@@ -122,7 +122,7 @@ if (isset($_POST['update_foto'])) {
 
 $foto_profil = getFotoProfilPath($user_id);
 
-$sql = "SELECT b.*, t.jenis, t.nama_maskapai, t.dari, t.ke, t.tanggal 
+$sql = "SELECT b.*, t.jenis, t.dari, t.ke, t.tanggal 
         FROM tb_booking b 
         JOIN tb_tiket t ON b.tiket_id = t.id 
         WHERE b.user_id = ? 
@@ -259,7 +259,7 @@ $bookings = $stmt->get_result();
             <div class="history-item">
                 <h3>
                     <img src="asset/<?php echo htmlspecialchars($icon); ?>" alt="<?php echo htmlspecialchars($jenis); ?>-icon">
-                    <?php echo htmlspecialchars($booking['nama_maskapai'] ?? 'N/A'); ?>
+                    <?php echo htmlspecialchars($jenis); ?>
                 </h3>
                 <p><?php echo htmlspecialchars($booking['dari'] ?? ''); ?> → <?php echo htmlspecialchars($booking['ke'] ?? ''); ?></p>
                 <p><small>Tanggal Keberangkatan: <?php echo isset($booking['tanggal']) ? date('d M Y', strtotime($booking['tanggal'])) : 'N/A'; ?></small></p>

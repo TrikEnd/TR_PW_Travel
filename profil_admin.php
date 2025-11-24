@@ -122,25 +122,8 @@ if (isset($_POST['update_foto'])) {
 }
 
 $foto_profil = getFotoProfilPath($admin_id);
-
-$stmt = $conn->query("SELECT COUNT(*) as total FROM tb_user WHERE role='user'");
-$total_users = $stmt->fetch_assoc()['total'];
-
-$stmt = $conn->query("SELECT COUNT(*) as total FROM tb_booking");
-$total_bookings = $stmt->fetch_assoc()['total'];
-
-$stmt = $conn->query("SELECT COUNT(*) as total FROM tb_tiket");
-$total_tiket = $stmt->fetch_assoc()['total'];
-
-$stmt = $conn->query("SELECT SUM(total_harga) as total FROM tb_booking WHERE status_pembayaran='Sudah Bayar'");
-$total_revenue = $stmt->fetch_assoc()['total'] ?? 0;
 ?>
 <div style="padding: 0;">
-    
-    <div class="admin-header">
-        <h1><img src="asset/profile.svg" alt="Admin" style="width: 32px; height: 32px; vertical-align: middle; margin-right: 10px;"> Admin Dashboard</h1>
-        <p class="subtitle">Selamat datang, <?php echo htmlspecialchars($admin['username']); ?>!</p>
-    </div>
 
     <?php if ($message): ?>
         <div class="alert alert-success">
@@ -153,48 +136,6 @@ $total_revenue = $stmt->fetch_assoc()['total'] ?? 0;
             ✗ <?php echo htmlspecialchars($error); ?>
         </div>
     <?php endif; ?>
-
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-icon stat-icon-users">
-                <img src="asset/profile.svg" alt="Users">
-            </div>
-            <div class="stat-info">
-                <h3><?php echo $total_users; ?></h3>
-                <p>Total Users</p>
-            </div>
-        </div>
-        
-        <div class="stat-card">
-            <div class="stat-icon stat-icon-bookings">
-                <img src="asset/booking.svg" alt="Booking">
-            </div>
-            <div class="stat-info">
-                <h3><?php echo $total_bookings; ?></h3>
-                <p>Total Bookings</p>
-            </div>
-        </div>
-        
-        <div class="stat-card">
-            <div class="stat-icon stat-icon-tickets">
-                <img src="asset/ticket.svg" alt="Tickets">
-            </div>
-            <div class="stat-info">
-                <h3><?php echo $total_tiket; ?></h3>
-                <p>Total Tiket</p>
-            </div>
-        </div>
-        
-        <div class="stat-card">
-            <div class="stat-icon stat-icon-revenue">
-                <img src="asset/revenue.svg" alt="Revenue">
-            </div>
-            <div class="stat-info">
-                <h3>Rp <?php echo number_format($total_revenue, 0, ',', '.'); ?></h3>
-                <p>Total Revenue</p>
-            </div>
-        </div>
-    </div>
 
     <div class="card">
         <h2>Foto Profil Admin</h2>

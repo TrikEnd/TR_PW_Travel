@@ -745,7 +745,7 @@ foreach ($extensions as $ext) {
                                     <td>
                                         <?php 
                                         $seatStatusClass = 'warning';
-                                        if ($seat['seat_status'] == 'Confirmed') $seatStatusClass = 'success';
+                                        if ($seat['seat_status'] == 'Confirmed') $seatStatusClass = 'primary';
                                         if ($seat['seat_status'] == 'Available') $seatStatusClass = 'info';
                                         ?>
                                         <span class="badge badge-<?php echo $seatStatusClass; ?>">
